@@ -1,4 +1,74 @@
 
-# Intro
 
-A methods document and a demo of bookdown
+```{r setup, include = F}
+# Pound signs make it so code doesn't run
+# Include = F means this code chunk will not be displayed when you 'knit'.
+
+library(tidyverse)
+library(sf)
+library(dataRetrieval)
+library(nhdplusTools)
+library(mapview)
+```
+
+# Assignment
+
+
+Differing salinity levels through specific conductivity and how it affects the local ionic compounds.
+
+
+## Watershed delineation
+
+
+
+
+### Watershed map
+
+
+
+## Data Acquisition
+
+primary gage with discharge data and level data. 
+
+
+```{r}
+site_no <- "01463500" 
+
+q <- readNWISdv(siteNumbers = site_no, 
+                parameterCd = '00060', 
+                startDate = '1995-09-30', 
+                endDate = '2021-01-01') %>% 
+  rename(q_cfs = X_00060_00003)
+
+sc <- readNWISdv(siteNumbers = site_no,
+                parameterCd = '00095',
+                startDate = '1995-09-30', 
+                endDate = '2021-01-01') %>%
+  rename(sc = X_00095_00003)
+
+```
+
+
+
+## Data Description
+
+
+1912-10-01
+
+
+2022-02-14
+
+
+
+## Data plot
+
+
+```{r}
+ggplot(q, aes(x = Date, y = q_cfs)) + 
+  geom_line() + 
+  ylab('Q (cfs)')
+
+```
+
+
+The plot shows the discharge data in cfs for the Delaware river from 1995-09-30 to 2021-01-01. There is a lot of variation over the years that can be seen in this graph ranging from 0 to over 200,000 cfs.

@@ -31,7 +31,7 @@
   
   
 
-<link rel="next" href="intro-1.html"/>
+<link rel="next" href="assignment.html"/>
 <script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -119,6 +119,28 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 </head>
 
@@ -132,12 +154,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Intro</a>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Intro</a></li>
+<li class="chapter" data-level="2" data-path="assignment.html"><a href="assignment.html"><i class="fa fa-check"></i><b>2</b> Assignment</a>
 <ul>
-<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#r-markdown"><i class="fa fa-check"></i><b>1.1</b> R Markdown</a></li>
-<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#including-plots"><i class="fa fa-check"></i><b>1.2</b> Including Plots</a></li>
+<li class="chapter" data-level="2.1" data-path="assignment.html"><a href="assignment.html#watershed-delineation"><i class="fa fa-check"></i><b>2.1</b> Watershed delineation</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="assignment.html"><a href="assignment.html#watershed-map"><i class="fa fa-check"></i><b>2.1.1</b> Watershed map</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="intro-1.html"><a href="intro-1.html"><i class="fa fa-check"></i><b>2</b> Intro</a></li>
+<li class="chapter" data-level="2.2" data-path="assignment.html"><a href="assignment.html#data-acquisition"><i class="fa fa-check"></i><b>2.2</b> Data Acquisition</a></li>
+<li class="chapter" data-level="2.3" data-path="assignment.html"><a href="assignment.html#data-description"><i class="fa fa-check"></i><b>2.3</b> Data Description</a></li>
+<li class="chapter" data-level="2.4" data-path="assignment.html"><a href="assignment.html#data-plot"><i class="fa fa-check"></i><b>2.4</b> Data plot</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
 
       </nav>
@@ -158,30 +186,35 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="header">
 <h1 class="title">Final Project</h1>
 <p class="author"><em>Cher Prazak</em></p>
-<p class="date"><em>03 Mar, 2022, 09:49 AM</em></p>
+<p class="date"><em>03 Mar, 2022, 10:45 AM</em></p>
 </div>
 <div id="intro" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Intro</h1>
-<div id="r-markdown" class="section level2" number="1.1">
-<h2><span class="header-section-number">1.1</span> R Markdown</h2>
-<p>This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a>.</p>
-<p>When you click the <strong>Knit</strong> button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cars)</span></code></pre></div>
-<pre><code>##      speed           dist       
-##  Min.   : 4.0   Min.   :  2.00  
-##  1st Qu.:12.0   1st Qu.: 26.00  
-##  Median :15.0   Median : 36.00  
-##  Mean   :15.4   Mean   : 42.98  
-##  3rd Qu.:19.0   3rd Qu.: 56.00  
-##  Max.   :25.0   Max.   :120.00</code></pre>
-</div>
-<div id="including-plots" class="section level2" number="1.2">
-<h2><span class="header-section-number">1.2</span> Including Plots</h2>
-<p>You can also embed plots, for example:</p>
-<p><img src="Final-Project_files/figure-html/pressure-1.png" width="672" /></p>
-<p>Note that the <code>echo = FALSE</code> parameter was added to the code chunk to prevent printing of the R code that generated the plot.</p>
+<p>For years, the world has been watching our climate change into what it is today.
+There are people who prefer not believe in it and there are people who are very
+passionate about it. The changes that have been recorded are small, but important
+for many systems on Earth. These include an increase of around one degree Celsius
+and an increase in sea level by 6 to 8 inches. These play a big part in changing
+pieces of our lives that we don’t notice on a day to day basis.</p>
+<p>With the sea level rising, the amount of coastal erosion has increased by a large
+amount. This has been decimating beaches and taking down coastal cliffs. There is
+already a hard time with upkeep of buildings and equipment because of the salt in
+the air which is corrosive over time. This corrosivity breaks down concrete and can
+cause a lot of problems with stability. So, you can imagine how easily this can
+break down rocks and beaches. The rising in sea levels also leads to a loss of deltas, marshes, and wetlands that have important ecosystems that they house.</p>
+<p>Now you might be wondering how a rising sea level affects you and you would be surprised
+by how much you should care. With all of these impacts, there are ones that you don’t
+typically see yourself. If you live by a stream that lets out into the ocean, there
+are more impacts to be worried about. Such as when the tide comes in and sea water
+intrudes into the freshwater areas. Now any pipes or equipment that were used to
+take freshwater will have to be cleaned more often to keep from corroding. And with
+sea levels rising, these saltwater intrusions will keep going further into these
+freshwater areas, impacting more and more parts of the stream.</p>
+<p>Now if we focus on the Delaware River in New Jersey, we can look at the saltwater
+intrusion and how it has changed over the last few years. We can take this and
+compare it to sea levels in order to show how they are related and rely on each
+other<span class="citation">(Gay and O’Donnell 2009)</span>.</p>
 
-</div>
 </div>
             </section>
 
@@ -189,7 +222,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         </div>
       </div>
 
-<a href="intro-1.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="assignment.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

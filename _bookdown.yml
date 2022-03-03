@@ -4,4 +4,5 @@ delete_merged_file: true
 rmd_files:
   - "index.Rmd"
   - "1_methods.Rmd"
+  - "wrapping_up.Rmd"
 output_dir: "docs"

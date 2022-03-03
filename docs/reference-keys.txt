@@ -1,4 +1,7 @@
 intro
-r-markdown
-including-plots
-intro-1
+assignment
+watershed-delineation
+watershed-map
+data-acquisition
+data-description
+data-plot

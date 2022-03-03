@@ -1,0 +1,172 @@
+---
+title: "2_results"
+author: "Cher Prazak"
+date: "3/3/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(dataRetrieval)
+library(trend)
+library(lubridate)
+
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Is there a trend in discharge at my site?
+
+##Methods
+
+###Download data
+
+```{r}
+site_no <- "01463500" 
+
+q <- readNWISdv(siteNumbers = site_no, 
+                parameterCd = '00060', 
+                startDate = '1995-09-30', 
+                endDate = '2021-01-01') %>% 
+  rename(q_cfs = X_00060_00003) %>% 
+  addWaterYear(.) %>%
+  select(-agency_cd, -X_00060_00003_cd)
+
+head(q)
+```
+
+###Monthly averages
+
+```{r}
+q_month_means <- q %>%
+  mutate(month = month(Date),
+         year = year(Date)) %>%
+  group_by(year, month) %>%
+  summarize(q_mean = mean(q_cfs, na.rm = T),
+            q_min = min(q_cfs, na.rm = T),
+            q_median = median(q_cfs))
+
+
+head(q_month_means)
+
+```
+
+##Trends in September
+
+```{r}
+
+q_sept <- q_month_means %>%
+  filter(month == 9)
+
+ggplot(q_sept, aes(x = year, y = q_mean)) +
+  geom_point() +
+  scale_y_log10()+
+  ylab('Q (cfs)') +
+  xlab('Water Year')
+
+
+```
+
+
+##Test for trends
+
+```{r}
+
+mk.test(log10(q_sept$q_mean))
+
+sens.slope(log10(q_sept$q_mean))
+
+#1 cfs per year
+sens.slope((q_sept$q_mean))
+
+```
+
+
+Describe the trend here:
+
+There does not seem to be a specific trend for the month of September at this site on the Delaware River. It does look like the best fit line would be a straight line around 225 cfs, with some outliers that are either much higher or lower. The reason for there not being much of a trend here is due to how large the Delaware River is, making it difficult for it to be affected by anything.  
+
+##Trend for a different month - August
+
+```{r}
+
+q_aug <- q_month_means %>%
+  filter(month == 8)
+
+ggplot(q_aug, aes(x = year, y = q_mean)) +
+  geom_point() +
+  scale_y_log10()+
+  ylab('Q (cfs)') +
+  xlab('Water Year')
+
+```
+
+
+##Plot of all months with minimum and median Q (alter summarize fxn)
+
+```{r}
+#Mean
+ggplot(q_month_means, aes(x = year, y = q_mean)) +
+  geom_point() +
+  facet_wrap(~month, scales = 'free') +
+  scale_y_log10()
+
+```
+
+```{r}
+#Minimum
+ggplot(q_month_means, aes(x = year, y = q_min)) +
+  geom_point() +
+  facet_wrap(~month, scales = 'free') +
+  scale_y_log10()
+
+```
+
+```{r}
+#Median
+ggplot(q_month_means, aes(x = year, y = q_median)) +
+  geom_point() +
+  facet_wrap(~month, scales = 'free') +
+  scale_y_log10()
+
+```
+
+
+Describe what you see here without a trend test:
+
+At this site in the Delaware River at Trenton, there are not many trends that can be seen over the months. For the mean, the values are all over the place and the only kind of trends would be straight lines with outliers. For the minimum values, the data seems to be a little more consise than with the mean values. So it would be easier to put a trend line in, but it is still all over the place where I can't say whether the values are increasing or decreasing. For the median values, they are also all over  the place like with the mean values. In March, April, and September there is a slight increasing trend that can be seen. The rest have no trends due to the Delaware River being so large.  
+
+#Exploring specific conductivity trends
+
+```{r}
+
+site_no <- "01463500" 
+
+q <- readNWISdv(siteNumbers = site_no, 
+                parameterCd = '00095', 
+                startDate = '1995-09-30', 
+                endDate = '2021-01-01') %>% 
+  rename(q_cfs = X_00095_00003) %>% 
+  addWaterYear(.) %>%
+  select(-agency_cd, -X_00095_00003_cd)
+
+```
+
+```{r}
+q_month_means2 <- q %>%
+  mutate(month = month(Date),
+         year = year(Date)) %>%
+  group_by(year, month) %>%
+  summarize(q_mean = mean(q_cfs, na.rm = T),
+            q_min = min(q_cfs, na.rm = T),
+            q_median = median(q_cfs))
+```
+
+
+```{r}
+ggplot(q_month_means2, aes(x = year, y = q_mean)) +
+  geom_point() +
+  facet_wrap(~month, scales = 'free') +
+  scale_y_log10()
+```
+
+The specific conductance data also does not show much of a trend throughout the year. However, if you look at them closely, most do seem to have a slight increase in their values. 
