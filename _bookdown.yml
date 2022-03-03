@@ -1,0 +1,7 @@
+book_filename: "Final Project"
+delete_merged_file: true
+
+rmd_files:
+  - "index.Rmd"
+  - "1_methods.Rmd"
+output_dir: "docs"
