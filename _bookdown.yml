@@ -5,4 +5,5 @@ rmd_files:
   - "index.Rmd"
   - "1_methods.Rmd"
   - "wrapping_up.Rmd"
+  - "2_results.Rmd"
 output_dir: "docs"
