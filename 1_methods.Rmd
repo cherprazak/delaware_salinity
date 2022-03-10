@@ -1,8 +1,8 @@
 
+# Methods
+
 
 ```{r setup, include = F}
-# Pound signs make it so code doesn't run
-# Include = F means this code chunk will not be displayed when you 'knit'.
 
 library(tidyverse)
 library(sf)
@@ -11,20 +11,36 @@ library(nhdplusTools)
 library(mapview)
 ```
 
-# Assignment
-
-
-Differing salinity levels through specific conductivity and how it affects the local ionic compounds.
-
 
 ## Watershed delineation
 
+```{r, eval=FALSE}
+site_coords_db3 <- readNWISsite("01463500") %>%
+  st_as_sf(coords = c('dec_long_va', 'dec_lat_va'), remove= FALSE, crs = 4326) %>%
+  st_transform(crs = 4269)
 
 
+dbae <- get_huc8(site_coords_db3[1,]) 
 
-### Watershed map
+
+flowlines_db3 <- get_nhdplus(AOI = dbae, 
+                         realization = 'flowline')
+  
+catchments_db3 <- get_nhdplus(AOI = dbae, 
+                         realization = 'catchment') 
+```
 
 
+## Watershed map
+
+```{r}
+watershed <- st_read('NJdata.geojson') %>%
+  dplyr::filter(id == 'globalwatershed' )
+
+watershed
+mapview(watershed)
+
+```
 
 ## Data Acquisition
 
@@ -48,16 +64,12 @@ sc <- readNWISdv(siteNumbers = site_no,
 
 ```
 
-
-
-## Data Description
-
+Dates of Data:
 
 1912-10-01
 
 
 2022-02-14
-
 
 
 ## Data plot

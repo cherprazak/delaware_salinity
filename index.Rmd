@@ -10,7 +10,7 @@ output:
     #bookdown::pdf_book: default
 ---
 
-# Intro
+# Introduction
 
 For years, the world has been watching our climate change into what it is today.
 There are people who prefer not believe in it and there are people who are very 
@@ -44,4 +44,8 @@ compare it to sea levels in order to show how they are related and rely on each
 other[@gay_comparison_2009].In a river like the Delaware that has a well mixed 
 estuary, the response to river discharge is suprisingly weak[@garvine_axial_1992].
 
+
+## Question
+
+Differing salinity levels through specific conductivity and how it affects the local ionic compounds.
 
