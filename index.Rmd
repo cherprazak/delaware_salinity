@@ -17,35 +17,36 @@ There are people who prefer not believe in it and there are people who are very
 passionate about it. The changes that have been recorded are small, but important
 for many systems on Earth. These include an increase of around one degree Celsius
 and an increase in sea level by 6 to 8 inches [@epa_climate_2021]. These play a 
-big part in changing pieces of our lives that we don't notice on a day to day basis.
+big part in changing parts of our lives that we don't notice on a day to day basis.
 
 With the sea level rising, the amount of coastal erosion has increased by a large 
-amount. This has been decimating beaches and taking down coastal cliffs. There is 
-already a hard time with upkeep of buildings and equipment because of the salt in 
-the air which is corrosive over time. This corrosivity breaks down concrete and can 
-cause a lot of problems with stability [@epa_climate_2021-1]. So, you can imagine 
-how easily this can break down rocks and beaches. The rising in sea levels also 
-leads to a loss of deltas, marshes, and wetlands that have important ecosystems
-that they house.
+amount. This has been decimating beaches and taking down coastal cliffs by breaking
+down the sediments, forcing these structures to loose their stability. Leading to 
+a loss of deltas, marshes, and wetlands that house important ecosystems. Saltwater 
+is corrosive over time and also makes it more difficult for buildings and equipment 
+to keep their strength. This means that buildings and equipment need constant upkeep
+so they don't erode like the river banks [@epa_climate_2021-1]. 
 
-Now you might be wondering how a rising sea level affects you and you would be surprised
-by how much you should care. With all of these impacts, there are ones that you don't
-typically see yourself. If you live by a stream that lets out into the ocean, there
-are more impacts to be worried about. Such as when the tide comes in and sea water
-intrudes into the freshwater areas. Now any pipes or equipment that were used to
-take freshwater will have to be cleaned more often to keep from corroding 
-[@epa_climate_2021-1]. And with sea levels rising, these saltwater intrusions 
-will keep going further into these freshwater areas, impacting more and more parts 
-of the stream.
+Looking at the tide coming into the Delaware Bay, sea water flows towards the
+freshwater and will flow upstream at the bottom of the river. This is due to the
+difference in densities of water, with saltwater being more dense than freshwater. 
+As more construction is done along the banks of the Delaware, the more 
+susceptible the river is to saltwater intrusion. The Delaware river flows for 301 
+miles along Delaware, New Jersey, and Pennsylvania; there is a large amount of people 
+that rely on this river for their everyday water. All of Philadelphia's water and 50% 
+of New York City's water comes from the Delaware River, making it a very important 
+source of water. However, this means that there is more groundwater pumping which 
+pulls saltwater further into the Delaware. Therefore increasing saltwater intrusion 
+and erosion along the river banks. 
 
 Now if we focus on the Delaware River in New Jersey, we can look at the saltwater 
 intrusion and how it has changed over the last few years. We can take this and 
 compare it to sea levels in order to show how they are related and rely on each 
 other[@gay_comparison_2009].In a river like the Delaware that has a well mixed 
-estuary, the response to river discharge is suprisingly weak[@garvine_axial_1992].
+estuary, the response to river discharge is surprisingly weak[@garvine_axial_1992].
 
 
 ## Question
 
-Differing salinity levels through specific conductivity and how it affects the local ionic compounds.
-
+With sea levels rising globally, how has saltwater intrusion affected the Delaware
+River and the people that rely on it's water?
