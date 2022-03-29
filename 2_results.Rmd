@@ -1,9 +1,4 @@
----
-title: "2_results"
-author: "Cher Prazak"
-date: "3/3/2022"
-output: html_document
----
+
 
 ```{r, include=FALSE}
 library(tidyverse)
