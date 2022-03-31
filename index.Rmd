@@ -46,6 +46,8 @@ other[@gay_comparison_2009].In a river like the Delaware that has a well mixed
 estuary, the response to river discharge is surprisingly weak[@garvine_axial_1992].
 
 
+![](D_saltfront.png)
+
 ## Question
 
 With sea levels rising globally, how has saltwater intrusion affected the Delaware

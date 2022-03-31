@@ -13,3 +13,6 @@ test-for-trends
 august-trends
 minimum-and-median-q-plot
 specific-conductivity-trends
+trenton
+del-mem-bridge-at-willmington
+ship-john-shaol-lighthouse
