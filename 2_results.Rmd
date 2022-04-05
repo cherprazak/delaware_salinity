@@ -1,8 +1,12 @@
+<<<<<<< HEAD
 ---
 output: html_document
 editor_options: 
   chunk_output_type: console
 ---
+=======
+
+>>>>>>> a5a9a71d2b20a55f1176c65713efbaae503fb73f
 
 
 ```{r, include=FALSE}
