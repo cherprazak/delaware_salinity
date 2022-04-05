@@ -9,7 +9,7 @@ results
 data
 monthly-averages
 september-trends
-test-for-trends
+test-for-trends-mann-kendall
 august-trends
 minimum-and-median-q-plot
 specific-conductivity-trends

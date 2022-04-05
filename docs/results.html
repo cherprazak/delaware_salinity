@@ -163,7 +163,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.1" data-path="results.html"><a href="results.html#data"><i class="fa fa-check"></i><b>3.1</b> Data<span></span></a></li>
 <li class="chapter" data-level="3.2" data-path="results.html"><a href="results.html#monthly-averages"><i class="fa fa-check"></i><b>3.2</b> Monthly averages<span></span></a></li>
 <li class="chapter" data-level="3.3" data-path="results.html"><a href="results.html#september-trends"><i class="fa fa-check"></i><b>3.3</b> September Trends<span></span></a></li>
-<li class="chapter" data-level="3.4" data-path="results.html"><a href="results.html#test-for-trends"><i class="fa fa-check"></i><b>3.4</b> Test for trends<span></span></a></li>
+<li class="chapter" data-level="3.4" data-path="results.html"><a href="results.html#test-for-trends-mann-kendall"><i class="fa fa-check"></i><b>3.4</b> Test for trends (mann-kendall)<span></span></a></li>
 <li class="chapter" data-level="3.5" data-path="results.html"><a href="results.html#august-trends"><i class="fa fa-check"></i><b>3.5</b> August Trends<span></span></a></li>
 <li class="chapter" data-level="3.6" data-path="results.html"><a href="results.html#minimum-and-median-q-plot"><i class="fa fa-check"></i><b>3.6</b> Minimum and Median Q Plot<span></span></a></li>
 <li class="chapter" data-level="3.7" data-path="results.html"><a href="results.html#specific-conductivity-trends"><i class="fa fa-check"></i><b>3.7</b> Specific Conductivity Trends<span></span></a>
@@ -195,24 +195,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">3</span> Results<a href="results.html#results" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <div id="data" class="section level2 hasAnchor" number="3.1">
 <h2><span class="header-section-number">3.1</span> Data<a href="results.html#data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="results.html#cb9-1" aria-hidden="true" tabindex="-1"></a>site_no <span class="ot">&lt;-</span> <span class="st">&quot;01463500&quot;</span> </span>
-<span id="cb9-2"><a href="results.html#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="results.html#cb9-3" aria-hidden="true" tabindex="-1"></a>q <span class="ot">&lt;-</span> <span class="fu">readNWISdv</span>(<span class="at">siteNumbers =</span> site_no, </span>
-<span id="cb9-4"><a href="results.html#cb9-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">parameterCd =</span> <span class="st">&#39;00060&#39;</span>, </span>
-<span id="cb9-5"><a href="results.html#cb9-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">startDate =</span> <span class="st">&#39;1995-09-30&#39;</span>, </span>
-<span id="cb9-6"><a href="results.html#cb9-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">endDate =</span> <span class="st">&#39;2021-01-01&#39;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb9-7"><a href="results.html#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">q_cfs =</span> X_00060_00003) <span class="sc">%&gt;%</span> </span>
-<span id="cb9-8"><a href="results.html#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addWaterYear</span>(.) <span class="sc">%&gt;%</span></span>
-<span id="cb9-9"><a href="results.html#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>agency_cd, <span class="sc">-</span>X_00060_00003_cd)</span>
-<span id="cb9-10"><a href="results.html#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-11"><a href="results.html#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(q)</span></code></pre></div>
-<pre><code>##    site_no       Date waterYear q_cfs
-## 1 01463500 1995-09-30      1995  2960
-## 2 01463500 1995-10-01      1996  2800
-## 3 01463500 1995-10-02      1996  2560
-## 4 01463500 1995-10-03      1996  2580
-## 5 01463500 1995-10-04      1996  2560
-## 6 01463500 1995-10-05      1996  3180</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="results.html#cb10-1" aria-hidden="true" tabindex="-1"></a>site_no1 <span class="ot">&lt;-</span> <span class="st">&quot;01463500&quot;</span> </span>
+<span id="cb10-2"><a href="results.html#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="results.html#cb10-3" aria-hidden="true" tabindex="-1"></a>q <span class="ot">&lt;-</span> <span class="fu">readNWISdv</span>(<span class="at">siteNumbers =</span> site_no1, </span>
+<span id="cb10-4"><a href="results.html#cb10-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">parameterCd =</span> <span class="st">&#39;00060&#39;</span>, </span>
+<span id="cb10-5"><a href="results.html#cb10-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">startDate =</span> <span class="st">&#39;1995-09-30&#39;</span>, </span>
+<span id="cb10-6"><a href="results.html#cb10-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">endDate =</span> <span class="st">&#39;2021-01-01&#39;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-7"><a href="results.html#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">q_cfs =</span> X_00060_00003) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-8"><a href="results.html#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addWaterYear</span>(.) <span class="sc">%&gt;%</span></span>
+<span id="cb10-9"><a href="results.html#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>agency_cd, <span class="sc">-</span>X_00060_00003_cd)</span>
+<span id="cb10-10"><a href="results.html#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="results.html#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(q)</span></code></pre></div>
 </div>
 <div id="monthly-averages" class="section level2 hasAnchor" number="3.2">
 <h2><span class="header-section-number">3.2</span> Monthly averages<a href="results.html#monthly-averages" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -247,10 +240,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb15-6"><a href="results.html#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>()<span class="sc">+</span></span>
 <span id="cb15-7"><a href="results.html#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&#39;Q (cfs)&#39;</span>) <span class="sc">+</span></span>
 <span id="cb15-8"><a href="results.html#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&#39;Water Year&#39;</span>)</span></code></pre></div>
-<p><img src="Final-Project_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="Final-Project_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 </div>
-<div id="test-for-trends" class="section level2 hasAnchor" number="3.4">
-<h2><span class="header-section-number">3.4</span> Test for trends<a href="results.html#test-for-trends" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="test-for-trends-mann-kendall" class="section level2 hasAnchor" number="3.4">
+<h2><span class="header-section-number">3.4</span> Test for trends (mann-kendall)<a href="results.html#test-for-trends-mann-kendall" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="results.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mk.test</span>(<span class="fu">log10</span>(q_sept<span class="sc">$</span>q_mean))</span></code></pre></div>
 <pre><code>## 
 ##  Mann-Kendall trend test
@@ -286,7 +279,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## sample estimates:
 ## Sen&#39;s slope 
 ##         2.8</code></pre>
-<p>There does not seem to be a specific trend for the month of September at this site on the Delaware River. It does look like the best fit line would be a straight line around 225 cfs, with some outliers that are either much higher or lower. The reason for there not being much of a trend here is due to how large the Delaware River is, making it difficult for it to be affected by anything.</p>
+<p>There does not seem to be a specific trend for the month of September at this site on the Delaware River. It does look like the best fit line would be a straight line around 225 cfs, with some outliers that are either much higher or lower. The reason for there not being much of a trend here is due to how large the Delaware River is, making it difficult for it to be affected by anything.
+p=0.8948</p>
 </div>
 <div id="august-trends" class="section level2 hasAnchor" number="3.5">
 <h2><span class="header-section-number">3.5</span> August Trends<a href="results.html#august-trends" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -298,7 +292,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb22-6"><a href="results.html#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>()<span class="sc">+</span></span>
 <span id="cb22-7"><a href="results.html#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&#39;Q (cfs)&#39;</span>) <span class="sc">+</span></span>
 <span id="cb22-8"><a href="results.html#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&#39;Water Year&#39;</span>)</span></code></pre></div>
-<p><img src="Final-Project_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="Final-Project_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 </div>
 <div id="minimum-and-median-q-plot" class="section level2 hasAnchor" number="3.6">
 <h2><span class="header-section-number">3.6</span> Minimum and Median Q Plot<a href="results.html#minimum-and-median-q-plot" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -307,102 +301,109 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb23-3"><a href="results.html#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb23-4"><a href="results.html#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>month, <span class="at">scales =</span> <span class="st">&#39;free&#39;</span>) <span class="sc">+</span></span>
 <span id="cb23-5"><a href="results.html#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>()</span></code></pre></div>
-<p><img src="Final-Project_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="Final-Project_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="results.html#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Minimum</span></span>
 <span id="cb24-2"><a href="results.html#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(q_month_means, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> q_min)) <span class="sc">+</span></span>
 <span id="cb24-3"><a href="results.html#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb24-4"><a href="results.html#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>month, <span class="at">scales =</span> <span class="st">&#39;free&#39;</span>) <span class="sc">+</span></span>
 <span id="cb24-5"><a href="results.html#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>()</span></code></pre></div>
-<p><img src="Final-Project_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><img src="Final-Project_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="results.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Median</span></span>
 <span id="cb25-2"><a href="results.html#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(q_month_means, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> q_median)) <span class="sc">+</span></span>
 <span id="cb25-3"><a href="results.html#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb25-4"><a href="results.html#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>month, <span class="at">scales =</span> <span class="st">&#39;free&#39;</span>) <span class="sc">+</span></span>
 <span id="cb25-5"><a href="results.html#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>()</span></code></pre></div>
-<p><img src="Final-Project_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p><img src="Final-Project_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 <p>At this site in the Delaware River at Trenton, there are not many trends that can be seen over the months. For the mean, the values are all over the place and the only kind of trends would be straight lines with outliers. For the minimum values, the data seems to be a little more consise than with the mean values. So it would be easier to put a trend line in, but it is still all over the place where I can’t say whether the values are increasing or decreasing. For the median values, they are also all over the place like with the mean values. In March, April, and September there is a slight increasing trend that can be seen. The rest have no trends due to the Delaware River being so large.</p>
 </div>
 <div id="specific-conductivity-trends" class="section level2 hasAnchor" number="3.7">
 <h2><span class="header-section-number">3.7</span> Specific Conductivity Trends<a href="results.html#specific-conductivity-trends" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div id="trenton" class="section level3 hasAnchor" number="3.7.1">
 <h3><span class="header-section-number">3.7.1</span> 01463500 - Trenton<a href="results.html#trenton" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="results.html#cb26-1" aria-hidden="true" tabindex="-1"></a>site_no <span class="ot">&lt;-</span> <span class="st">&quot;01463500&quot;</span> </span>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="results.html#cb26-1" aria-hidden="true" tabindex="-1"></a>site_no1 <span class="ot">&lt;-</span> <span class="st">&quot;01463500&quot;</span></span>
 <span id="cb26-2"><a href="results.html#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-3"><a href="results.html#cb26-3" aria-hidden="true" tabindex="-1"></a>sc1 <span class="ot">&lt;-</span> <span class="fu">readNWISdv</span>(<span class="at">siteNumbers =</span> site_no, </span>
-<span id="cb26-4"><a href="results.html#cb26-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">parameterCd =</span> <span class="st">&#39;00095&#39;</span>, </span>
-<span id="cb26-5"><a href="results.html#cb26-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">startDate =</span> <span class="st">&#39;1995-09-30&#39;</span>, </span>
-<span id="cb26-6"><a href="results.html#cb26-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">endDate =</span> <span class="st">&#39;2021-01-01&#39;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb26-7"><a href="results.html#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">sc_um =</span> X_00095_00003) <span class="sc">%&gt;%</span> </span>
-<span id="cb26-8"><a href="results.html#cb26-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addWaterYear</span>(.) <span class="sc">%&gt;%</span></span>
-<span id="cb26-9"><a href="results.html#cb26-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>agency_cd, <span class="sc">-</span>X_00095_00003_cd)</span></code></pre></div>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="results.html#cb27-1" aria-hidden="true" tabindex="-1"></a>sc_mean_t <span class="ot">&lt;-</span> sc1 <span class="sc">%&gt;%</span></span>
-<span id="cb27-2"><a href="results.html#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">month =</span> <span class="fu">month</span>(Date),</span>
-<span id="cb27-3"><a href="results.html#cb27-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">year =</span> <span class="fu">year</span>(Date)) <span class="sc">%&gt;%</span></span>
-<span id="cb27-4"><a href="results.html#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year, month) <span class="sc">%&gt;%</span></span>
-<span id="cb27-5"><a href="results.html#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">sc_mean =</span> <span class="fu">mean</span>(sc_um, <span class="at">na.rm =</span> T),</span>
-<span id="cb27-6"><a href="results.html#cb27-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">sc_min =</span> <span class="fu">min</span>(sc_um, <span class="at">na.rm =</span> T),</span>
-<span id="cb27-7"><a href="results.html#cb27-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">sc_median =</span> <span class="fu">median</span>(sc_um))</span></code></pre></div>
+<span id="cb26-3"><a href="results.html#cb26-3" aria-hidden="true" tabindex="-1"></a>Spec_Cond1 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;data/spefcond1.csv&#39;</span>)</span>
+<span id="cb26-4"><a href="results.html#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="results.html#cb26-5" aria-hidden="true" tabindex="-1"></a>sc1 <span class="ot">&lt;-</span> <span class="fu">readNWISuv</span>(<span class="at">siteNumbers =</span> site_no1, </span>
+<span id="cb26-6"><a href="results.html#cb26-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">parameterCd =</span> <span class="st">&#39;00095&#39;</span>, </span>
+<span id="cb26-7"><a href="results.html#cb26-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">startDate =</span> <span class="st">&#39;1995-09-30&#39;</span>, </span>
+<span id="cb26-8"><a href="results.html#cb26-8" aria-hidden="true" tabindex="-1"></a>                <span class="at">endDate =</span> <span class="st">&#39;2021-01-01&#39;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb26-9"><a href="results.html#cb26-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">sc_um =</span> X_00095_00000) <span class="sc">%&gt;%</span> </span>
+<span id="cb26-10"><a href="results.html#cb26-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addWaterYear</span>(.) <span class="sc">%&gt;%</span> </span>
+<span id="cb26-11"><a href="results.html#cb26-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>agency_cd, <span class="sc">-</span>X_00095_00000_cd)</span>
+<span id="cb26-12"><a href="results.html#cb26-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-13"><a href="results.html#cb26-13" aria-hidden="true" tabindex="-1"></a>sc_mean_t <span class="ot">&lt;-</span> sc1 <span class="sc">%&gt;%</span></span>
+<span id="cb26-14"><a href="results.html#cb26-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">month =</span> <span class="fu">month</span>(dateTime),</span>
+<span id="cb26-15"><a href="results.html#cb26-15" aria-hidden="true" tabindex="-1"></a>         <span class="at">year =</span> <span class="fu">year</span>(dateTime)) <span class="sc">%&gt;%</span></span>
+<span id="cb26-16"><a href="results.html#cb26-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year, month) <span class="sc">%&gt;%</span></span>
+<span id="cb26-17"><a href="results.html#cb26-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">sc_mean =</span> <span class="fu">mean</span>(sc_um, <span class="at">na.rm =</span> T),</span>
+<span id="cb26-18"><a href="results.html#cb26-18" aria-hidden="true" tabindex="-1"></a>            <span class="at">sc_min =</span> <span class="fu">min</span>(sc_um, <span class="at">na.rm =</span> T),</span>
+<span id="cb26-19"><a href="results.html#cb26-19" aria-hidden="true" tabindex="-1"></a>            <span class="at">sc_median =</span> <span class="fu">median</span>(sc_um))</span></code></pre></div>
 <pre><code>## `summarise()` has grouped output by &#39;year&#39;. You can override using the `.groups`
 ## argument.</code></pre>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="results.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sc_mean_t, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> sc_mean)) <span class="sc">+</span></span>
-<span id="cb29-2"><a href="results.html#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb29-3"><a href="results.html#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>month, <span class="at">scales =</span> <span class="st">&#39;free&#39;</span>) <span class="sc">+</span></span>
-<span id="cb29-4"><a href="results.html#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>()</span></code></pre></div>
-<p><img src="Final-Project_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="results.html#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sc_mean_t, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> sc_mean)) <span class="sc">+</span></span>
+<span id="cb28-2"><a href="results.html#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb28-3"><a href="results.html#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>month, <span class="at">scales =</span> <span class="st">&#39;free&#39;</span>) <span class="sc">+</span></span>
+<span id="cb28-4"><a href="results.html#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>()</span></code></pre></div>
+<p><img src="Final-Project_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 <p>The specific conductance data also does not show much of a trend throughout the year.
 However, if you look at them closely, most do seem to have a slight increase in their
 values.</p>
 </div>
 <div id="del-mem-bridge-at-willmington" class="section level3 hasAnchor" number="3.7.2">
 <h3><span class="header-section-number">3.7.2</span> 01482100 - Del Mem Bridge at Willmington<a href="results.html#del-mem-bridge-at-willmington" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="results.html#cb30-1" aria-hidden="true" tabindex="-1"></a>site_no <span class="ot">&lt;-</span> <span class="st">&quot;01482100&quot;</span> </span>
-<span id="cb30-2"><a href="results.html#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-3"><a href="results.html#cb30-3" aria-hidden="true" tabindex="-1"></a>sc2 <span class="ot">&lt;-</span> <span class="fu">readNWISuv</span>(<span class="at">siteNumbers =</span> site_no, </span>
-<span id="cb30-4"><a href="results.html#cb30-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">parameterCd =</span> <span class="st">&#39;00095&#39;</span>) </span>
-<span id="cb30-5"><a href="results.html#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">dateTime =</span> lubridate<span class="sc">::</span><span class="fu">as_datetime</span>(dateTime),</span>
-<span id="cb30-6"><a href="results.html#cb30-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">date =</span> lubridate<span class="sc">::</span><span class="fu">as_date</span>(dateTime))<span class="sc">%&gt;%</span></span>
-<span id="cb30-7"><a href="results.html#cb30-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(site_no, date)<span class="sc">%&gt;%</span></span>
-<span id="cb30-8"><a href="results.html#cb30-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">sc_min =</span> <span class="fu">min</span>(X_Lower.Sensor_00095_00000),</span>
-<span id="cb30-9"><a href="results.html#cb30-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">sc_mean =</span> <span class="fu">mean</span>(X_Lower.Sensor_00095_00000),</span>
-<span id="cb30-10"><a href="results.html#cb30-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">sc_max =</span> <span class="fu">max</span>(X_Lower.Sensor_00095_00000))</span>
-<span id="cb30-11"><a href="results.html#cb30-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-12"><a href="results.html#cb30-12" aria-hidden="true" tabindex="-1"></a>sc_mean_dm <span class="ot">&lt;-</span> sc2 <span class="sc">%&gt;%</span></span>
-<span id="cb30-13"><a href="results.html#cb30-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">month =</span> <span class="fu">month</span>(Date),</span>
-<span id="cb30-14"><a href="results.html#cb30-14" aria-hidden="true" tabindex="-1"></a>         <span class="at">year =</span> <span class="fu">year</span>(Date)) <span class="sc">%&gt;%</span></span>
-<span id="cb30-15"><a href="results.html#cb30-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year, month) <span class="sc">%&gt;%</span></span>
-<span id="cb30-16"><a href="results.html#cb30-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">sc_mean =</span> <span class="fu">mean</span>(sc_um, <span class="at">na.rm =</span> T),</span>
-<span id="cb30-17"><a href="results.html#cb30-17" aria-hidden="true" tabindex="-1"></a>            <span class="at">sc_min =</span> <span class="fu">min</span>(sc_um, <span class="at">na.rm =</span> T),</span>
-<span id="cb30-18"><a href="results.html#cb30-18" aria-hidden="true" tabindex="-1"></a>            <span class="at">sc_median =</span> <span class="fu">median</span>(sc_um))</span>
-<span id="cb30-19"><a href="results.html#cb30-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-20"><a href="results.html#cb30-20" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sc_mean_dm, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> sc_mean)) <span class="sc">+</span></span>
-<span id="cb30-21"><a href="results.html#cb30-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb30-22"><a href="results.html#cb30-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>month, <span class="at">scales =</span> <span class="st">&#39;free&#39;</span>) <span class="sc">+</span></span>
-<span id="cb30-23"><a href="results.html#cb30-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="results.html#cb29-1" aria-hidden="true" tabindex="-1"></a>site_no2 <span class="ot">&lt;-</span> <span class="st">&quot;01482100&quot;</span> </span>
+<span id="cb29-2"><a href="results.html#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="results.html#cb29-3" aria-hidden="true" tabindex="-1"></a>Spec_Cond2 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;data/spefcond2.csv&#39;</span>)</span>
+<span id="cb29-4"><a href="results.html#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="results.html#cb29-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-6"><a href="results.html#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-7"><a href="results.html#cb29-7" aria-hidden="true" tabindex="-1"></a>sc2 <span class="ot">&lt;-</span> <span class="fu">readNWISuv</span>(<span class="at">siteNumbers =</span> site_no2, </span>
+<span id="cb29-8"><a href="results.html#cb29-8" aria-hidden="true" tabindex="-1"></a>                <span class="at">parameterCd =</span> <span class="st">&#39;00095&#39;</span>) </span>
+<span id="cb29-9"><a href="results.html#cb29-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">dateTime =</span> lubridate<span class="sc">::</span><span class="fu">as_datetime</span>(dateTime),</span>
+<span id="cb29-10"><a href="results.html#cb29-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">date =</span> lubridate<span class="sc">::</span><span class="fu">as_date</span>(dateTime))<span class="sc">%&gt;%</span></span>
+<span id="cb29-11"><a href="results.html#cb29-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(site_no, date)<span class="sc">%&gt;%</span></span>
+<span id="cb29-12"><a href="results.html#cb29-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">sc_min =</span> <span class="fu">min</span>(X_Lower.Sensor_00095_00000),</span>
+<span id="cb29-13"><a href="results.html#cb29-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">sc_mean =</span> <span class="fu">mean</span>(X_Lower.Sensor_00095_00000),</span>
+<span id="cb29-14"><a href="results.html#cb29-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">sc_max =</span> <span class="fu">max</span>(X_Lower.Sensor_00095_00000))</span>
+<span id="cb29-15"><a href="results.html#cb29-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-16"><a href="results.html#cb29-16" aria-hidden="true" tabindex="-1"></a>sc_mean_dm <span class="ot">&lt;-</span> sc2 <span class="sc">%&gt;%</span></span>
+<span id="cb29-17"><a href="results.html#cb29-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">month =</span> <span class="fu">month</span>(Date),</span>
+<span id="cb29-18"><a href="results.html#cb29-18" aria-hidden="true" tabindex="-1"></a>         <span class="at">year =</span> <span class="fu">year</span>(Date)) <span class="sc">%&gt;%</span></span>
+<span id="cb29-19"><a href="results.html#cb29-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year, month) <span class="sc">%&gt;%</span></span>
+<span id="cb29-20"><a href="results.html#cb29-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">sc_mean =</span> <span class="fu">mean</span>(sc_um, <span class="at">na.rm =</span> T),</span>
+<span id="cb29-21"><a href="results.html#cb29-21" aria-hidden="true" tabindex="-1"></a>            <span class="at">sc_min =</span> <span class="fu">min</span>(sc_um, <span class="at">na.rm =</span> T),</span>
+<span id="cb29-22"><a href="results.html#cb29-22" aria-hidden="true" tabindex="-1"></a>            <span class="at">sc_median =</span> <span class="fu">median</span>(sc_um))</span>
+<span id="cb29-23"><a href="results.html#cb29-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-24"><a href="results.html#cb29-24" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sc_mean_dm, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> sc_mean)) <span class="sc">+</span></span>
+<span id="cb29-25"><a href="results.html#cb29-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb29-26"><a href="results.html#cb29-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>month, <span class="at">scales =</span> <span class="st">&#39;free&#39;</span>) <span class="sc">+</span></span>
+<span id="cb29-27"><a href="results.html#cb29-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>()</span></code></pre></div>
 </div>
 <div id="ship-john-shaol-lighthouse" class="section level3 hasAnchor" number="3.7.3">
 <h3><span class="header-section-number">3.7.3</span> 01412350 - Ship John Shaol Lighthouse<a href="results.html#ship-john-shaol-lighthouse" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="results.html#cb31-1" aria-hidden="true" tabindex="-1"></a>site_no <span class="ot">&lt;-</span> <span class="st">&quot;01412350&quot;</span> </span>
-<span id="cb31-2"><a href="results.html#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-3"><a href="results.html#cb31-3" aria-hidden="true" tabindex="-1"></a>sc3 <span class="ot">&lt;-</span> <span class="fu">readNWISdv</span>(<span class="at">siteNumbers =</span> site_no, </span>
-<span id="cb31-4"><a href="results.html#cb31-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">parameterCd =</span> <span class="st">&#39;00095&#39;</span>, </span>
-<span id="cb31-5"><a href="results.html#cb31-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">startDate =</span> <span class="st">&#39;1995-09-30&#39;</span>, </span>
-<span id="cb31-6"><a href="results.html#cb31-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">endDate =</span> <span class="st">&#39;2021-01-01&#39;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb31-7"><a href="results.html#cb31-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">sc_um =</span> X_00095_00003) <span class="sc">%&gt;%</span> </span>
-<span id="cb31-8"><a href="results.html#cb31-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addWaterYear</span>(.) <span class="sc">%&gt;%</span></span>
-<span id="cb31-9"><a href="results.html#cb31-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>agency_cd, <span class="sc">-</span>X_00095_00003_cd)</span>
-<span id="cb31-10"><a href="results.html#cb31-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-11"><a href="results.html#cb31-11" aria-hidden="true" tabindex="-1"></a>sc_mean_sj <span class="ot">&lt;-</span> sc3 <span class="sc">%&gt;%</span></span>
-<span id="cb31-12"><a href="results.html#cb31-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">month =</span> <span class="fu">month</span>(Date),</span>
-<span id="cb31-13"><a href="results.html#cb31-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">year =</span> <span class="fu">year</span>(Date)) <span class="sc">%&gt;%</span></span>
-<span id="cb31-14"><a href="results.html#cb31-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year, month) <span class="sc">%&gt;%</span></span>
-<span id="cb31-15"><a href="results.html#cb31-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">sc_mean =</span> <span class="fu">mean</span>(sc_um, <span class="at">na.rm =</span> T),</span>
-<span id="cb31-16"><a href="results.html#cb31-16" aria-hidden="true" tabindex="-1"></a>            <span class="at">sc_min =</span> <span class="fu">min</span>(sc_um, <span class="at">na.rm =</span> T),</span>
-<span id="cb31-17"><a href="results.html#cb31-17" aria-hidden="true" tabindex="-1"></a>            <span class="at">sc_median =</span> <span class="fu">median</span>(sc_um))</span>
-<span id="cb31-18"><a href="results.html#cb31-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-19"><a href="results.html#cb31-19" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sc_mean_sj, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> sc_mean)) <span class="sc">+</span></span>
-<span id="cb31-20"><a href="results.html#cb31-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb31-21"><a href="results.html#cb31-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>month, <span class="at">scales =</span> <span class="st">&#39;free&#39;</span>) <span class="sc">+</span></span>
-<span id="cb31-22"><a href="results.html#cb31-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="results.html#cb30-1" aria-hidden="true" tabindex="-1"></a>site_no3 <span class="ot">&lt;-</span> <span class="st">&quot;01412350&quot;</span> </span>
+<span id="cb30-2"><a href="results.html#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="results.html#cb30-3" aria-hidden="true" tabindex="-1"></a>sc3 <span class="ot">&lt;-</span> <span class="fu">readNWISdv</span>(<span class="at">siteNumbers =</span> site_no3, </span>
+<span id="cb30-4"><a href="results.html#cb30-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">parameterCd =</span> <span class="st">&#39;00095&#39;</span>, </span>
+<span id="cb30-5"><a href="results.html#cb30-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">startDate =</span> <span class="st">&#39;1995-09-30&#39;</span>, </span>
+<span id="cb30-6"><a href="results.html#cb30-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">endDate =</span> <span class="st">&#39;2021-01-01&#39;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-7"><a href="results.html#cb30-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">sc_um =</span> X_00095_00003) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-8"><a href="results.html#cb30-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addWaterYear</span>(.) <span class="sc">%&gt;%</span></span>
+<span id="cb30-9"><a href="results.html#cb30-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>agency_cd, <span class="sc">-</span>X_00095_00003_cd)</span>
+<span id="cb30-10"><a href="results.html#cb30-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-11"><a href="results.html#cb30-11" aria-hidden="true" tabindex="-1"></a>sc_mean_sj <span class="ot">&lt;-</span> sc3 <span class="sc">%&gt;%</span></span>
+<span id="cb30-12"><a href="results.html#cb30-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">month =</span> <span class="fu">month</span>(Date),</span>
+<span id="cb30-13"><a href="results.html#cb30-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">year =</span> <span class="fu">year</span>(Date)) <span class="sc">%&gt;%</span></span>
+<span id="cb30-14"><a href="results.html#cb30-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year, month) <span class="sc">%&gt;%</span></span>
+<span id="cb30-15"><a href="results.html#cb30-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">sc_mean =</span> <span class="fu">mean</span>(sc_um, <span class="at">na.rm =</span> T),</span>
+<span id="cb30-16"><a href="results.html#cb30-16" aria-hidden="true" tabindex="-1"></a>            <span class="at">sc_min =</span> <span class="fu">min</span>(sc_um, <span class="at">na.rm =</span> T),</span>
+<span id="cb30-17"><a href="results.html#cb30-17" aria-hidden="true" tabindex="-1"></a>            <span class="at">sc_median =</span> <span class="fu">median</span>(sc_um))</span>
+<span id="cb30-18"><a href="results.html#cb30-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-19"><a href="results.html#cb30-19" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sc_mean_sj, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> sc_mean)) <span class="sc">+</span></span>
+<span id="cb30-20"><a href="results.html#cb30-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb30-21"><a href="results.html#cb30-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>month, <span class="at">scales =</span> <span class="st">&#39;free&#39;</span>) <span class="sc">+</span></span>
+<span id="cb30-22"><a href="results.html#cb30-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>()</span></code></pre></div>
 
 </div>
 </div>

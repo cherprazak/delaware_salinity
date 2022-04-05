@@ -10,18 +10,31 @@ library(tidyverse)
 library(dataRetrieval)
 library(trend)
 library(lubridate)
+library(readr)
+library(here)
+library(dbplyr)
 
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+```{r}
+
+write_csv(q,here('data','discharge.csv'))
+
+write_csv(sc1,here('data',"spefcond1.csv"))
+
+```
+
 
 # Results
 
 ## Data
 
-```{r}
-site_no <- "01463500" 
+```{r, eval =FALSE}
 
-q <- readNWISdv(siteNumbers = site_no, 
+site_no1 <- "01463500" 
+
+q <- readNWISdv(siteNumbers = site_no1, 
                 parameterCd = '00060', 
                 startDate = '1995-09-30', 
                 endDate = '2021-01-01') %>% 
@@ -45,7 +58,6 @@ q_month_means <- q %>%
 
 
 head(q_month_means)
-
 ```
 
 ## September Trends 
@@ -65,7 +77,7 @@ ggplot(q_sept, aes(x = year, y = q_mean)) +
 ```
 
 
-## Test for trends
+## Test for trends (mann-kendall)
 
 ```{r}
 
@@ -78,7 +90,8 @@ sens.slope((q_sept$q_mean))
 
 ```
 
-There does not seem to be a specific trend for the month of September at this site on the Delaware River. It does look like the best fit line would be a straight line around 225 cfs, with some outliers that are either much higher or lower. The reason for there not being much of a trend here is due to how large the Delaware River is, making it difficult for it to be affected by anything.  
+There does not seem to be a specific trend for the month of September at this site on the Delaware River. It does look like the best fit line would be a straight line around 225 cfs, with some outliers that are either much higher or lower. The reason for there not being much of a trend here is due to how large the Delaware River is, making it difficult for it to be affected by anything. 
+p=0.8948
 
 ## August Trends
 
@@ -132,30 +145,26 @@ At this site in the Delaware River at Trenton, there are not many trends that ca
 ### 01463500 - Trenton
 ```{r}
 
-site_no <- "01463500" 
+site_no1 <- "01463500"
 
-sc1 <- readNWISdv(siteNumbers = site_no, 
+Spec_Cond1 <- read.csv('data/spefcond1.csv')
+
+sc1 <- readNWISuv(siteNumbers = site_no1, 
                 parameterCd = '00095', 
                 startDate = '1995-09-30', 
                 endDate = '2021-01-01') %>% 
-  rename(sc_um = X_00095_00003) %>% 
-  addWaterYear(.) %>%
-  select(-agency_cd, -X_00095_00003_cd)
+  rename(sc_um = X_00095_00000) %>% 
+  addWaterYear(.) %>% 
+  select(-agency_cd, -X_00095_00000_cd)
 
-```
-
-```{r}
 sc_mean_t <- sc1 %>%
-  mutate(month = month(Date),
-         year = year(Date)) %>%
+  mutate(month = month(dateTime),
+         year = year(dateTime)) %>%
   group_by(year, month) %>%
   summarize(sc_mean = mean(sc_um, na.rm = T),
             sc_min = min(sc_um, na.rm = T),
             sc_median = median(sc_um))
-```
 
-
-```{r}
 ggplot(sc_mean_t, aes(x = year, y = sc_mean)) +
   geom_point() +
   facet_wrap(~month, scales = 'free') +
@@ -168,9 +177,13 @@ values.
 
 ### 01482100 - Del Mem Bridge at Willmington
 ```{r dd, eval = F}
-site_no <- "01482100" 
+site_no2 <- "01482100" 
 
-sc2 <- readNWISuv(siteNumbers = site_no, 
+Spec_Cond2 <- read.csv('data/spefcond2.csv')
+
+
+
+sc2 <- readNWISuv(siteNumbers = site_no2, 
                 parameterCd = '00095') 
   mutate(dateTime = lubridate::as_datetime(dateTime),
          date = lubridate::as_date(dateTime))%>%
@@ -196,9 +209,9 @@ ggplot(sc_mean_dm, aes(x = year, y = sc_mean)) +
 
 ### 01412350 - Ship John Shaol Lighthouse
 ```{r dd2, eval = F}
-site_no <- "01412350" 
+site_no3 <- "01412350" 
 
-sc3 <- readNWISdv(siteNumbers = site_no, 
+sc3 <- readNWISdv(siteNumbers = site_no3, 
                 parameterCd = '00095', 
                 startDate = '1995-09-30', 
                 endDate = '2021-01-01') %>% 
