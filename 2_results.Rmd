@@ -9,7 +9,7 @@ editor_options:
 >>>>>>> a5a9a71d2b20a55f1176c65713efbaae503fb73f
 
 
-```{r, include=FALSE}
+```{r setup, include=FALSE}
 library(tidyverse)
 library(dataRetrieval)
 library(trend)
@@ -18,15 +18,19 @@ library(readr)
 library(here)
 library(dbplyr)
 
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, results = FALSE)
 ```
 
-```{r}
+
+```{r, eval=FALSE}
 
 write_csv(q,here('data','discharge.csv'))
 
 write_csv(sc1,here('data',"spefcond1.csv"))
 
+write_csv(sc2,here('data',"spefcond2.csv"))
+
+write_csv(sc3,here('data',"spefcond3.csv"))
 ```
 
 
@@ -34,7 +38,7 @@ write_csv(sc1,here('data',"spefcond1.csv"))
 
 ## Data
 
-```{r, eval =FALSE}
+```{r, eval=FALSE}
 
 site_no1 <- "01463500" 
 
@@ -51,7 +55,7 @@ head(q)
 
 ## Monthly averages
 
-```{r}
+```{r, eval=FALSE}
 q_month_means <- q %>%
   mutate(month = month(Date),
          year = year(Date)) %>%
@@ -66,7 +70,7 @@ head(q_month_means)
 
 ## September Trends 
 
-```{r}
+```{r, eval=FALSE}
 
 q_sept <- q_month_means %>%
   filter(month == 9)
@@ -81,7 +85,7 @@ ggplot(q_sept, aes(x = year, y = q_mean)) +
 ```
 
 
-## Test for trends (mann-kendall)
+## Mann-Kendall Test
 
 ```{r}
 
@@ -99,7 +103,7 @@ p=0.8948
 
 ## August Trends
 
-```{r}
+```{r, eval=FALSE}
 
 q_aug <- q_month_means %>%
   filter(month == 8)
@@ -165,11 +169,11 @@ sc_mean_t <- sc1 %>%
   mutate(month = month(dateTime),
          year = year(dateTime)) %>%
   group_by(year, month) %>%
-  summarize(sc_mean = mean(sc_um, na.rm = T),
-            sc_min = min(sc_um, na.rm = T),
-            sc_median = median(sc_um))
+  summarize(sc_mean1 = mean(sc_um, na.rm = T),
+            sc_min1 = min(sc_um, na.rm = T),
+            sc_median1 = median(sc_um))
 
-ggplot(sc_mean_t, aes(x = year, y = sc_mean)) +
+ggplot(sc_mean_t, aes(x = year, y = sc_mean1)) +
   geom_point() +
   facet_wrap(~month, scales = 'free') +
   scale_y_log10()
@@ -180,31 +184,29 @@ However, if you look at them closely, most do seem to have a slight increase in 
 values. 
 
 ### 01482100 - Del Mem Bridge at Willmington
-```{r dd, eval = F}
+```{r}
 site_no2 <- "01482100" 
 
 Spec_Cond2 <- read.csv('data/spefcond2.csv')
 
-
-
 sc2 <- readNWISuv(siteNumbers = site_no2, 
-                parameterCd = '00095') 
+                parameterCd = '00095') %>% 
   mutate(dateTime = lubridate::as_datetime(dateTime),
          date = lubridate::as_date(dateTime))%>%
-  group_by(site_no, date)%>%
-  summarize(sc_min = min(X_Lower.Sensor_00095_00000),
-            sc_mean = mean(X_Lower.Sensor_00095_00000),
-            sc_max = max(X_Lower.Sensor_00095_00000))
+  group_by(site_no, dateTime)%>%
+  summarize(sc_um_min_2 = min(X_Lower.Sensor_00095_00000),
+            sc_um_mean_2 = mean(X_Lower.Sensor_00095_00000),
+            sc_um_max_2 = max(X_Lower.Sensor_00095_00000))
 
 sc_mean_dm <- sc2 %>%
-  mutate(month = month(Date),
-         year = year(Date)) %>%
+  mutate(month = month(dateTime),
+         year = year(dateTime)) %>%
   group_by(year, month) %>%
-  summarize(sc_mean = mean(sc_um, na.rm = T),
-            sc_min = min(sc_um, na.rm = T),
-            sc_median = median(sc_um))
+  summarize(sc_mean2 = mean(sc_um_mean_2, na.rm = T),
+            sc_min2 = min(sc_um_min_2, na.rm = T),
+            sc_max2 = max(sc_um_max_2))
 
-ggplot(sc_mean_dm, aes(x = year, y = sc_mean)) +
+ggplot(sc_mean_dm, aes(x = year, y = sc_mean2)) +
   geom_point() +
   facet_wrap(~month, scales = 'free') +
   scale_y_log10()
@@ -212,26 +214,29 @@ ggplot(sc_mean_dm, aes(x = year, y = sc_mean)) +
 
 
 ### 01412350 - Ship John Shaol Lighthouse
-```{r dd2, eval = F}
+```{r}
 site_no3 <- "01412350" 
 
-sc3 <- readNWISdv(siteNumbers = site_no3, 
+Spec_Cond3 <- read.csv('data/spefcond3.csv')
+
+sc3 <- readNWISuv(siteNumbers = site_no3, 
                 parameterCd = '00095', 
-                startDate = '1995-09-30', 
-                endDate = '2021-01-01') %>% 
-  rename(sc_um = X_00095_00003) %>% 
+                startDate = '2021-03-01', 
+                endDate = '2022-04-07') %>% 
+  rename(sc_um_3 = X_Lower_00095_00000) %>% 
   addWaterYear(.) %>%
-  select(-agency_cd, -X_00095_00003_cd)
+  select(-agency_cd, -X_Upper_00095_00000_cd, -X_Upper_00095_00000,
+        -X_Lower_00095_00000_cd, -tz_cd)
 
 sc_mean_sj <- sc3 %>%
-  mutate(month = month(Date),
-         year = year(Date)) %>%
+  mutate(month = month(dateTime),
+         year = year(dateTime)) %>%
   group_by(year, month) %>%
-  summarize(sc_mean = mean(sc_um, na.rm = T),
-            sc_min = min(sc_um, na.rm = T),
-            sc_median = median(sc_um))
+  summarize(sc_mean3 = mean(sc_um_3, na.rm = T),
+            sc_min3 = min(sc_um_3, na.rm = T),
+            sc_max3 = max(sc_um_3))
 
-ggplot(sc_mean_sj, aes(x = year, y = sc_mean)) +
+ggplot(sc_mean_sj, aes(x = year, y = sc_mean3)) +
   geom_point() +
   facet_wrap(~month, scales = 'free') +
   scale_y_log10()
