@@ -9,7 +9,7 @@ editor_options:
 >>>>>>> a5a9a71d2b20a55f1176c65713efbaae503fb73f
 
 
-```{r setup, include=FALSE}
+```{r, include=FALSE}
 library(tidyverse)
 library(dataRetrieval)
 library(trend)
@@ -42,7 +42,7 @@ write_csv(sc3,here('data',"spefcond3.csv"))
 
 site_no1 <- "01463500" 
 
-q <- readNWISdv(siteNumbers = site_no1, 
+q1 <- readNWISdv(siteNumbers = site_no1, 
                 parameterCd = '00060', 
                 startDate = '1995-09-30', 
                 endDate = '2021-01-01') %>% 
@@ -50,13 +50,13 @@ q <- readNWISdv(siteNumbers = site_no1,
   addWaterYear(.) %>%
   select(-agency_cd, -X_00060_00003_cd)
 
-head(q)
+head(q1)
 ```
 
-## Monthly averages
+## Monthly averages Trenton
 
 ```{r, eval=FALSE}
-q_month_means <- q %>%
+q_month_means <- q1 %>%
   mutate(month = month(Date),
          year = year(Date)) %>%
   group_by(year, month) %>%
@@ -242,4 +242,33 @@ ggplot(sc_mean_sj, aes(x = year, y = sc_mean3)) +
   scale_y_log10()
 ```
 
+##Discharge vs. Specific Conductivity Trends
+
+```{r}
+#trenton q vs. sc
+
+q_month_means <- q_month_means %>%
+  mutate(day =1)
+
+q_month_means$Date <- as.Date(with(q_month_means, paste(year, month, day, sep= "-")), '%Y-%m-%d')
+
+
+sc_mean_t <- sc_mean_t %>%
+  mutate(day = 1)
+
+sc_mean_t$Date <- as.Date(with(sc_mean_t, paste(year, month, day, sep= "-")), '%Y-%m-%d')
+
+
+q_sc_t <- right_join(q_month_means, sc_mean_t, by = 'Date')
+
+
+ggplot(q_sc_t) +
+  geom_line(aes(x = Date, y = q_mean),  color ="blue") +
+  geom_line(aes(x = Date, y = sc_mean1), color = "red")+
+  scale_y_log10()+
+  ylab('Q & SC') +
+  xlab('Water Year')+
+  theme_classic()
+
+```
 
