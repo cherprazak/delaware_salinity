@@ -1,13 +1,8 @@
-<<<<<<< HEAD
 ---
 output: html_document
 editor_options: 
   chunk_output_type: console
 ---
-=======
-
->>>>>>> a5a9a71d2b20a55f1176c65713efbaae503fb73f
-
 
 ```{r, include=FALSE}
 library(tidyverse)
@@ -17,6 +12,10 @@ library(lubridate)
 library(readr)
 library(here)
 library(dbplyr)
+library(scales)
+library(ggthemes)
+library(patchwork)
+library(hrbrthemes)
 
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, results = FALSE)
 ```
@@ -261,14 +260,49 @@ sc_mean_t$Date <- as.Date(with(sc_mean_t, paste(year, month, day, sep= "-")), '%
 
 q_sc_t <- right_join(q_month_means, sc_mean_t, by = 'Date')
 
-
-ggplot(q_sc_t) +
+p1 <- ggplot(q_sc_t) +
   geom_line(aes(x = Date, y = q_mean),  color ="blue") +
-  geom_line(aes(x = Date, y = sc_mean1), color = "red")+
-  scale_y_log10()+
-  ylab('Q & SC') +
+  geom_line(aes(x = Date, y = sc_mean1*100), color = "red")+
   xlab('Water Year')+
+  scale_y_log10()+
+  ylab('Q') +
   theme_classic()
+
+p1 + scale_y_continuous(name = "Discharge", sec.axis = sec_axis(trans =~. / 100, name= "Specific Conductivity"))+
+  theme_few(base_size =20)+
+  scale_color_identity(guide = "legend")+
+  ggtitle("Trenton")
+
+        
+p1
+
+```
+
+```{r}
+#site 2 and 3 sc
+
+sc_mean_dm <- sc_mean_dm %>% 
+  mutate(day = 1)
+
+sc_mean_dm$Date <- as.Date(with(sc_mean_dm, paste(year, month, day, sep= "-")),
+                           '%Y-%m-%d')
+
+sc_mean_sj <- sc_mean_sj %>% 
+  mutate(day = 1)
+
+sc_mean_sj$Date <- as.Date(with(sc_mean_sj, paste(year, month, day, sep= "-")),
+                           '%Y-%m-%d')
+
+sc_dm_sj <- right_join(sc_mean_dm, sc_mean_sj, by ='Date')
+
+ggplot(sc_dm_sj) +
+  geom_line(aes(x = Date, y = sc_mean2), color = "orange")+
+  geom_line(aes(x = Date, y = sc_mean3), color = "green")+
+  scale_y_log10()+
+  ylab('SC') +
+  xlab('Water Year')+
+  theme_classic()+
+  scale_color_identity(guide = "legend")
 
 ```
 

@@ -5,7 +5,6 @@ watershed-delineation
 watershed-map
 data-acquisition
 data-plot
-head
 results
 data
 monthly-averages-trenton
