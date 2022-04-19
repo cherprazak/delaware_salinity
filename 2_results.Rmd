@@ -14,6 +14,7 @@ library(here)
 library(dbplyr)
 library(scales)
 library(ggthemes)
+library(ggplot2)
 library(patchwork)
 library(hrbrthemes)
 
@@ -273,36 +274,36 @@ p1 + scale_y_continuous(name = "Discharge", sec.axis = sec_axis(trans =~. / 100,
   scale_color_identity(guide = "legend")+
   ggtitle("Trenton")
 
-        
-p1
-
 ```
 
 ```{r}
-#site 2 and 3 sc
+#SC plot for site 2 vs 3 
 
 sc_mean_dm <- sc_mean_dm %>% 
   mutate(day = 1)
 
-sc_mean_dm$Date <- as.Date(with(sc_mean_dm, paste(year, month, day, sep= "-")),
-                           '%Y-%m-%d')
+sc_mean_dm$Date <- as.Date(with(sc_mean_dm, paste(year, month, day, sep= "-")), '%Y-%m-%d')
 
 sc_mean_sj <- sc_mean_sj %>% 
   mutate(day = 1)
 
-sc_mean_sj$Date <- as.Date(with(sc_mean_sj, paste(year, month, day, sep= "-")),
-                           '%Y-%m-%d')
+sc_mean_sj$Date <- as.Date(with(sc_mean_sj, paste(year, month, day, sep= "-")), '%Y-%m-%d')
 
 sc_dm_sj <- right_join(sc_mean_dm, sc_mean_sj, by ='Date')
+  
+p2 <- ggplot(sc_dm_sj) +
+    geom_line(aes(x = Date, y = sc_mean2*10), color = "Orange")+
+    geom_line(aes(x = Date, y = sc_mean3), color = "Green")+
+    ylab('SC') +
+    xlab('Water Year')+
+    theme_classic()+
+    scale_color_identity(guide = "legend")
 
-ggplot(sc_dm_sj) +
-  geom_line(aes(x = Date, y = sc_mean2), color = "orange")+
-  geom_line(aes(x = Date, y = sc_mean3), color = "green")+
-  scale_y_log10()+
-  ylab('SC') +
-  xlab('Water Year')+
-  theme_classic()+
-  scale_color_identity(guide = "legend")
+    
+p2 + scale_y_continuous(name = "Site 3", sec.axis = sec_axis(trans =~. / 10, name= "Site 2"))+
+  theme_few(base_size =20)+
+  ggtitle("Specific Conductivity")
 
 ```
+![](sc2_3-legend.png)
 
