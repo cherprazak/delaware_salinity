@@ -36,10 +36,11 @@ write_csv(sc3,here('data',"spefcond3.csv"))
 
 # Results
 
-## Data
+## Discharge at Upstream Site
 
+### Data Retrieval
 ```{r, eval=FALSE}
-
+#Upstream Site
 site_no1 <- "01463500" 
 
 q1 <- readNWISdv(siteNumbers = site_no1, 
@@ -49,13 +50,11 @@ q1 <- readNWISdv(siteNumbers = site_no1,
   rename(q_cfs = X_00060_00003) %>% 
   addWaterYear(.) %>%
   select(-agency_cd, -X_00060_00003_cd)
-
-head(q1)
 ```
 
-## Monthly averages Trenton
+```{r}
+#Monthly averages at Upstream site
 
-```{r, eval=FALSE}
 q_month_means <- q1 %>%
   mutate(month = month(Date),
          year = year(Date)) %>%
@@ -63,96 +62,78 @@ q_month_means <- q1 %>%
   summarize(q_mean = mean(q_cfs, na.rm = T),
             q_min = min(q_cfs, na.rm = T),
             q_median = median(q_cfs))
-
-
-head(q_month_means)
 ```
 
-## September Trends 
-
-```{r, eval=FALSE}
-
+### Mann-Kendall Test of September Trends 
+```{r}
+#Upstream Site plot of September Trends
 q_sept <- q_month_means %>%
   filter(month == 9)
 
 ggplot(q_sept, aes(x = year, y = q_mean)) +
   geom_point() +
   scale_y_log10()+
-  ylab('Q (cfs)') +
+  ylab('Discharge (cfs)') +
   xlab('Water Year')
 
-
-```
-
-
-## Mann-Kendall Test
-
-```{r}
-
+#Mann-Kendall Test
 mk.test(log10(q_sept$q_mean))
 
 sens.slope(log10(q_sept$q_mean))
 
-#1 cfs per year
-sens.slope((q_sept$q_mean))
+up_sept_mk <- sens.slope((q_sept$q_mean))
 
+print(up_sept_mk)
 ```
-
-There does not seem to be a specific trend for the month of September at this site on the Delaware River. It does look like the best fit line would be a straight line around 225 cfs, with some outliers that are either much higher or lower. The reason for there not being much of a trend here is due to how large the Delaware River is, making it difficult for it to be affected by anything. 
+There does not seem to be a specific trend for the month of September at this site on the Delaware River. It does look like the best fit line would be a straight line around 225 cfs, with some outliers that are either much higher or lower. The reason for there not being much of a trend here is due to how large the Delaware River is, making it difficult for it to be affected by anything. (1 cfs per year?)
 p=0.8948
 
-## August Trends
-
-```{r, eval=FALSE}
-
-q_aug <- q_month_means %>%
-  filter(month == 8)
-
-ggplot(q_aug, aes(x = year, y = q_mean)) +
-  geom_point() +
-  scale_y_log10()+
-  ylab('Q (cfs)') +
-  xlab('Water Year')
-
-```
-
-
-## Minimum and Median Q Plot
-
+### Mean Discharge
 ```{r}
-#Mean
+#Upstream Site
 ggplot(q_month_means, aes(x = year, y = q_mean)) +
   geom_point() +
   facet_wrap(~month, scales = 'free') +
-  scale_y_log10()
-
+  scale_y_log10()+
+  ylab('Mean Discharge (cfs)') +
+  xlab('Year')
 ```
 
+### Minimum Discharge
 ```{r}
-#Minimum
+#Upstream Site
 ggplot(q_month_means, aes(x = year, y = q_min)) +
   geom_point() +
   facet_wrap(~month, scales = 'free') +
-  scale_y_log10()
-
+  scale_y_log10()+
+  ylab('Minimum Discharge (cfs)') +
+  xlab('Year')
 ```
 
+### Median Discharge
 ```{r}
-#Median
+#Upstream Site
 ggplot(q_month_means, aes(x = year, y = q_median)) +
   geom_point() +
   facet_wrap(~month, scales = 'free') +
-  scale_y_log10()
-
+  scale_y_log10()+
+  ylab('Median Discharge (cfs)') +
+  xlab('Year')
 ```
-
-At this site in the Delaware River at Trenton, there are not many trends that can be seen over the months. For the mean, the values are all over the place and the only kind of trends would be straight lines with outliers. For the minimum values, the data seems to be a little more consise than with the mean values. So it would be easier to put a trend line in, but it is still all over the place where I can't say whether the values are increasing or decreasing. For the median values, they are also all over  the place like with the mean values. In March, April, and September there is a slight increasing trend that can be seen. The rest have no trends due to the Delaware River being so large.  
+At this site in the Delaware River at Trenton, there are not many trends that can 
+be seen over the months. For the mean, the values are all over the place and the 
+only kind of trends would be straight lines with outliers. For the minimum values, 
+the data seems to be a little more concise than with the mean values. So it would 
+be easier to put a trend line in, but it is still all over the place where I can't 
+say whether the values are increasing or decreasing. For the median values, they 
+are also all over  the place like with the mean values. In March, April, and September 
+there is a slight increasing trend that can be seen. The rest have no trends due 
+to the Delaware River being so large.  
 
 ## Specific Conductivity Trends
 
-### 01463500 - Trenton
+### Upstream site
 ```{r}
-
 site_no1 <- "01463500"
 
 Spec_Cond1 <- read.csv('data/spefcond1.csv')
@@ -176,15 +157,17 @@ sc_mean_t <- sc1 %>%
 ggplot(sc_mean_t, aes(x = year, y = sc_mean1)) +
   geom_point() +
   facet_wrap(~month, scales = 'free') +
-  scale_y_log10()
+  scale_y_log10()+
+  ylab('Mean Specific Conductivity') +
+  xlab('Year')
 ```
 
 The specific conductance data also does not show much of a trend throughout the year.
 However, if you look at them closely, most do seem to have a slight increase in their
 values. 
 
-### 01482100 - Del Mem Bridge at Willmington
-```{r}
+### Middle site
+```{r, eval=FALSE}
 site_no2 <- "01482100" 
 
 Spec_Cond2 <- read.csv('data/spefcond2.csv')
@@ -209,12 +192,14 @@ sc_mean_dm <- sc2 %>%
 ggplot(sc_mean_dm, aes(x = year, y = sc_mean2)) +
   geom_point() +
   facet_wrap(~month, scales = 'free') +
-  scale_y_log10()
+  scale_y_log10()+
+  ylab('Mean Specific Conductivity') +
+  xlab('Year')
 ```
 
 
-### 01412350 - Ship John Shaol Lighthouse
-```{r}
+### Estuary site
+```{r, eval=FALSE}
 site_no3 <- "01412350" 
 
 Spec_Cond3 <- read.csv('data/spefcond3.csv')
@@ -239,14 +224,64 @@ sc_mean_sj <- sc3 %>%
 ggplot(sc_mean_sj, aes(x = year, y = sc_mean3)) +
   geom_point() +
   facet_wrap(~month, scales = 'free') +
-  scale_y_log10()
+  scale_y_log10()+
+  ylab('Mean Specific Conductivity') +
+  xlab('Year')
 ```
 
-##Discharge vs. Specific Conductivity Trends
+### Comparing middle and estuary site's Specific Conductivity
+```{r, fig.cap= "Figure _ "}
+sc_mean_dm <- sc_mean_dm %>% 
+  mutate(day = 1)
 
+sc_mean_dm$Date <- as.Date(with(sc_mean_dm, paste(year, month, day, sep= "-")), '%Y-%m-%d')
+
+sc_mean_sj <- sc_mean_sj %>% 
+  mutate(day = 1)
+
+sc_mean_sj$Date <- as.Date(with(sc_mean_sj, paste(year, month, day, sep= "-")), '%Y-%m-%d')
+
+sc_dm_sj <- right_join(sc_mean_dm, sc_mean_sj, by ='Date')
+  
+p1 <- ggplot(sc_dm_sj) +
+    geom_line(aes(x = Date, y = sc_mean2*10), color = "Orange", size = 1.5)+
+    geom_line(aes(x = Date, y = sc_mean3), color = "Green", size = 1.5)+
+    ylab('SC') +
+    xlab('Water Year')+
+    theme_classic()+
+    scale_color_identity(guide = "legend")
+
+    
+p1 + scale_y_continuous(name = "Estuary Site", sec.axis = sec_axis(trans =~. / 10, name= "Middle Site"))+
+  theme_few(base_size =20)+
+  ggtitle("Specific Conductivity")
+
+```
+![](sc2_3-legend.png){width=30%}
 ```{r}
-#trenton q vs. sc
+#Mann-Kendall Test (Middle Site)
+mk.test(log10(sc_dm_sj$sc_mean2))
 
+sens.slope(log10(sc_dm_sj$sc_mean2))
+
+sc_2_mk <- sens.slope((sc_dm_sj$sc_mean2))
+
+#Mann-Kendall Test (Estuary Site)
+mk.test(log10(sc_dm_sj$sc_mean3))
+
+sens.slope(log10(sc_dm_sj$sc_mean3))
+
+sc_3_mk <- sens.slope((sc_dm_sj$sc_mean3))
+
+print(sc_2_mk)
+print(sc_3_mk)
+```
+
+
+## Discharge vs. Specific Conductivity Trends at Upstream Site
+
+```{r, fig.cap= "Figure _ "}
+#Upstream Site
 q_month_means <- q_month_means %>%
   mutate(day =1)
 
@@ -261,7 +296,7 @@ sc_mean_t$Date <- as.Date(with(sc_mean_t, paste(year, month, day, sep= "-")), '%
 
 q_sc_t <- right_join(q_month_means, sc_mean_t, by = 'Date')
 
-p1 <- ggplot(q_sc_t) +
+p2 <- ggplot(q_sc_t) +
   geom_line(aes(x = Date, y = q_mean),  color ="blue") +
   geom_line(aes(x = Date, y = sc_mean1*100), color = "red")+
   xlab('Water Year')+
@@ -269,41 +304,29 @@ p1 <- ggplot(q_sc_t) +
   ylab('Q') +
   theme_classic()
 
-p1 + scale_y_continuous(name = "Discharge", sec.axis = sec_axis(trans =~. / 100, name= "Specific Conductivity"))+
+p2 + scale_y_continuous(name = "Discharge (cfs)", sec.axis = sec_axis(trans =~. / 100, name= "Specific Conductivity"))+
   theme_few(base_size =20)+
   scale_color_identity(guide = "legend")+
-  ggtitle("Trenton")
+  ggtitle("Upstream Site")
 
 ```
 
 ```{r}
-#SC plot for site 2 vs 3 
+#Mann-Kendall Test (Upstream Site Discharge)
+mk.test(log10(q_sc_t$q_mean))
 
-sc_mean_dm <- sc_mean_dm %>% 
-  mutate(day = 1)
+sens.slope(log10(q_sc_t$q_mean))
 
-sc_mean_dm$Date <- as.Date(with(sc_mean_dm, paste(year, month, day, sep= "-")), '%Y-%m-%d')
+up_q_mk <- sens.slope((q_sc_t$q_mean))
 
-sc_mean_sj <- sc_mean_sj %>% 
-  mutate(day = 1)
+#Mann-Kendall Test (Upstream Site SC)
+mk.test(log10(q_sc_t$sc_mean1))
 
-sc_mean_sj$Date <- as.Date(with(sc_mean_sj, paste(year, month, day, sep= "-")), '%Y-%m-%d')
+sens.slope(log10(q_sc_t$sc_mean1))
 
-sc_dm_sj <- right_join(sc_mean_dm, sc_mean_sj, by ='Date')
-  
-p2 <- ggplot(sc_dm_sj) +
-    geom_line(aes(x = Date, y = sc_mean2*10), color = "Orange")+
-    geom_line(aes(x = Date, y = sc_mean3), color = "Green")+
-    ylab('SC') +
-    xlab('Water Year')+
-    theme_classic()+
-    scale_color_identity(guide = "legend")
+up_sc_mk <- sens.slope((q_sc_t$sc_mean1))
 
-    
-p2 + scale_y_continuous(name = "Site 3", sec.axis = sec_axis(trans =~. / 10, name= "Site 2"))+
-  theme_few(base_size =20)+
-  ggtitle("Specific Conductivity")
-
+print(up_q_mk)
+print(up_sc_mk)
 ```
-![](sc2_3-legend.png)
 
