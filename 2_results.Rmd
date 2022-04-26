@@ -54,7 +54,6 @@ q1 <- readNWISdv(siteNumbers = site_no1,
 
 ```{r}
 #Monthly averages at Upstream site
-
 q_month_means <- q1 %>%
   mutate(month = month(Date),
          year = year(Date)) %>%
@@ -64,8 +63,52 @@ q_month_means <- q1 %>%
             q_median = median(q_cfs))
 ```
 
-### Mann-Kendall Test of September Trends 
-```{r}
+### Mean Discharge
+```{r, fig.cap= "*Figure 1.* Trends for all 12 months mean discharge data from 1995 to 2021 for the upstream site in the Delaware River."}
+#Trend of all 12 months at Upstream Site 
+ggplot(q_month_means, aes(x = year, y = q_mean)) +
+  geom_point() +
+  facet_wrap(~month, scales = 'free') +
+  scale_y_log10()+
+  ylab('Mean Discharge (cfs)') +
+  xlab('Year')
+```
+On *Figure 1.* we see all of the mean discharge values for the water years from 1995 
+to 2021. Going month to month, it is difficult to see any notable trends and when 
+the Mann-Kendall test is applied, it proves that most of the trends are non-significant. 
+November through May have much higher mean discharge values from winter weather, 
+which I am avoiding in my research mainly due to the application of road salt. 
+June and July values are a little bit lower, but still have a slight increasing 
+trend over the years. Let's look at the plots for August and September to see how 
+their mean discharge values behave. 
+
+### Mann-Kendall Test of August and September Trends
+
+```{r, fig.cap= "*Figure 2.* August trends for the upstream site in the Delaware River using mean discharge data from 1995 to 2021."}
+#Upstream Site plot of August Trends
+q_aug <- q_month_means %>%
+  filter(month == 8)
+
+ggplot(q_aug, aes(x = year, y = q_mean)) +
+  geom_point() +
+  scale_y_log10()+
+  ylab('Mean Discharge (cfs)') +
+  xlab('Water Year')
+
+#Mann-Kendall Test
+mk.test(log10(q_aug$q_mean))
+
+sens.slope(log10(q_aug$q_mean))
+
+up_aug_mk <- sens.slope((q_aug$q_mean))
+
+print(up_aug_mk)
+```
+The month of August has a much more visible trend of mean discharge increasing. 
+So when we apply the Mann-Kendall test, we find a significant trend with a slope 
+of 150.27. Proving that discharge is increasing over time especially in August.
+
+```{r,fig.cap= "*Figure 3.* September trends for the upstream site in the Delaware River using mean discharge data from 1995 to 2021."}
 #Upstream Site plot of September Trends
 q_sept <- q_month_means %>%
   filter(month == 9)
@@ -73,7 +116,7 @@ q_sept <- q_month_means %>%
 ggplot(q_sept, aes(x = year, y = q_mean)) +
   geom_point() +
   scale_y_log10()+
-  ylab('Discharge (cfs)') +
+  ylab('Mean Discharge (cfs)') +
   xlab('Water Year')
 
 #Mann-Kendall Test
@@ -85,33 +128,18 @@ up_sept_mk <- sens.slope((q_sept$q_mean))
 
 print(up_sept_mk)
 ```
-There does not seem to be a specific trend for the month of September at this site on the Delaware River. It does look like the best fit line would be a straight line around 225 cfs, with some outliers that are either much higher or lower. The reason for there not being much of a trend here is due to how large the Delaware River is, making it difficult for it to be affected by anything. (1 cfs per year?)
-p=0.8948
+Now Looking at *Figure 3.* for September, there does not seem to be any visible trends 
+and the majority of the points lie between 3000 and 6000 cfs with some much higher 
+outliers. Applying the Mann-Kendall test gives us a non-significant trend with a 
+2.8 slope. Telling us that the average discharge is also increasing for the month 
+of September, just not as much as August. 
 
-### Mean Discharge
-```{r}
-#Upstream Site
-ggplot(q_month_means, aes(x = year, y = q_mean)) +
-  geom_point() +
-  facet_wrap(~month, scales = 'free') +
-  scale_y_log10()+
-  ylab('Mean Discharge (cfs)') +
-  xlab('Year')
-```
-
-### Minimum Discharge
-```{r}
-#Upstream Site
-ggplot(q_month_means, aes(x = year, y = q_min)) +
-  geom_point() +
-  facet_wrap(~month, scales = 'free') +
-  scale_y_log10()+
-  ylab('Minimum Discharge (cfs)') +
-  xlab('Year')
-```
+It makes sense for August to have larger values than September because of how 
+large the mean discharge values are for the winter months. They seem to decrease 
+to September and then increase again in October re-starting the cycle. 
 
 ### Median Discharge
-```{r}
+```{r,fig.cap= "*Figure 4.* Trends for the upstream site in the Delaware River using median discharge data from 1995 to 2021."}
 #Upstream Site
 ggplot(q_month_means, aes(x = year, y = q_median)) +
   geom_point() +
@@ -120,20 +148,17 @@ ggplot(q_month_means, aes(x = year, y = q_median)) +
   ylab('Median Discharge (cfs)') +
   xlab('Year')
 ```
-At this site in the Delaware River at Trenton, there are not many trends that can 
-be seen over the months. For the mean, the values are all over the place and the 
-only kind of trends would be straight lines with outliers. For the minimum values, 
-the data seems to be a little more concise than with the mean values. So it would 
-be easier to put a trend line in, but it is still all over the place where I can't 
-say whether the values are increasing or decreasing. For the median values, they 
-are also all over  the place like with the mean values. In March, April, and September 
-there is a slight increasing trend that can be seen. The rest have no trends due 
-to the Delaware River being so large.  
+*Figure 4*, is very similar to *Figure 1.* however, the data plots are closer 
+together making it a little easier to see increasing trends for all months. Showing 
+that over time, the discharge rate upstream in the Delaware River is increasing. 
+
+With discharge increasing in the Delaware River, let's look at how Specific 
+Conductivity plays into this. 
 
 ## Specific Conductivity Trends
 
 ### Upstream site
-```{r}
+```{r, fig.cap= "*Figure 5.* Average specific conductivity trends for the upstream site in the Delaware River using data from 1995 to 2021."}
 site_no1 <- "01463500"
 
 Spec_Cond1 <- read.csv('data/spefcond1.csv')
@@ -161,10 +186,8 @@ ggplot(sc_mean_t, aes(x = year, y = sc_mean1)) +
   ylab('Mean Specific Conductivity') +
   xlab('Year')
 ```
+*Figure 5.* shows the mean specific conductivity for the upstream site for the Delaware River, which August and September have the largest values.
 
-The specific conductance data also does not show much of a trend throughout the year.
-However, if you look at them closely, most do seem to have a slight increase in their
-values. 
 
 ### Middle site
 ```{r, eval=FALSE}
@@ -230,7 +253,7 @@ ggplot(sc_mean_sj, aes(x = year, y = sc_mean3)) +
 ```
 
 ### Comparing middle and estuary site's Specific Conductivity
-```{r, fig.cap= "Figure _ "}
+```{r, fig.cap= "*Figure 6.* Mean Specific Conductivity trends for the Delaware River's Middle site and Estuary site from March 2021 to April 2022."}
 sc_mean_dm <- sc_mean_dm %>% 
   mutate(day = 1)
 
@@ -258,6 +281,8 @@ p1 + scale_y_continuous(name = "Estuary Site", sec.axis = sec_axis(trans =~. / 1
 
 ```
 ![](sc2_3-legend.png){width=30%}
+Looking at *Figure 6.* which shows specific conductivity at the Middle and Estuary sites, we can see that the Estuary has a lot more saltwater which makes sense for it's location. However, the middle site has more dramatic increases in saltwater that occur in July and Janurary. 
+
 ```{r}
 #Mann-Kendall Test (Middle Site)
 mk.test(log10(sc_dm_sj$sc_mean2))
@@ -280,7 +305,7 @@ print(sc_3_mk)
 
 ## Discharge vs. Specific Conductivity Trends at Upstream Site
 
-```{r, fig.cap= "Figure _ "}
+```{r, fig.cap= "*Figure 7.* Comparison of the Delaware River's upstream site discharge and specific conductivity from 1995 to 2021."}
 #Upstream Site
 q_month_means <- q_month_means %>%
   mutate(day =1)
@@ -310,6 +335,12 @@ p2 + scale_y_continuous(name = "Discharge (cfs)", sec.axis = sec_axis(trans =~. 
   ggtitle("Upstream Site")
 
 ```
+*Figure 7.* shows how discharge and specific conductivity act with each other. 
+With the red line marking specific conductivity, all of the highest points are 
+when discharge has it's lowest points. This tells us that discharge and speicific 
+conductivity have a relationship where salt water intrudes further when flow is 
+at it's lowest. Using the Mann-Kendall test, the trend is significant with a slight 
+slope of 0.15. 
 
 ```{r}
 #Mann-Kendall Test (Upstream Site Discharge)

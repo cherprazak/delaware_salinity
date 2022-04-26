@@ -1,3 +1,8 @@
+fig:unnamed-chunk-9
+fig:unnamed-chunk-10
+fig:unnamed-chunk-11
+fig:unnamed-chunk-12
+fig:unnamed-chunk-13
 fig:unnamed-chunk-16
 fig:unnamed-chunk-18
 introduction
@@ -10,9 +15,8 @@ data-plot
 results
 discharge-at-upstream-site
 data-retrieval
-mann-kendall-test-of-september-trends
 mean-discharge
-minimum-discharge
+mann-kendall-test-of-august-and-september-trends
 median-discharge
 specific-conductivity-trends
 upstream-site
