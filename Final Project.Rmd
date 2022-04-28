@@ -1,4 +1,133 @@
 ---
+title: "Final Project"
+author: "Cher Prazak"
+date: "`r format(Sys.time(), '%d %h, %Y, %I:%M %p')`"
+site: bookdown::bookdown_site
+documentclass: docs
+bibliography: WR440_biblio.bib 
+output:
+    bookdown::gitbook: default
+    #bookdown::pdf_book: default
+---
+
+# Introduction
+
+For years, the world has been watching our climate change into what it is today.
+There are people who prefer not believe in it and there are people who are very 
+passionate about it. The changes that have been recorded are small, but important
+for many systems on Earth. These include an increase of around one degree Celsius
+and an increase in sea level by 6 to 8 inches [@epa_climate_2021]. These play a 
+big part in changing parts of our lives that we don't notice on a day to day basis.
+
+With the sea level rising, the amount of coastal erosion has increased by a large 
+amount. This has been decimating beaches and taking down coastal cliffs by breaking
+down the sediments, forcing these structures to loose their stability. Leading to 
+a loss of deltas, marshes, and wetlands that house important ecosystems. Saltwater 
+is corrosive over time and also makes it more difficult for buildings and equipment 
+to keep their strength. This means that buildings and equipment need constant upkeep
+so they don't erode like the river banks [@epa_climate_2021-1]. 
+
+Looking at the tide coming into the Delaware Bay, sea water flows towards the
+freshwater and will flow upstream at the bottom of the river. This is due to the
+difference in densities of water, with saltwater being more dense than freshwater. 
+As more construction is done along the banks of the Delaware, the more 
+susceptible the river is to saltwater intrusion. The Delaware river flows for 301 
+miles along Delaware, New Jersey, and Pennsylvania; there is a large amount of people 
+that rely on this river for their everyday water. All of Philadelphia's water and 50% 
+of New York City's water comes from the Delaware River, making it a very important 
+source of water. However, this means that there is more groundwater pumping which 
+pulls saltwater further into the Delaware. Therefore increasing saltwater intrusion 
+and erosion along the river banks. 
+
+Now if we focus on the Delaware River in New Jersey, we can look at the saltwater 
+intrusion and how it has changed over the last few years. We can take this and 
+compare it to sea levels in order to show how they are related and rely on each 
+other[@gay_comparison_2009].In a river like the Delaware that has a well mixed 
+estuary, the response to river discharge is surprisingly weak[@garvine_axial_1992].
+
+
+![](D_saltfront.png)
+
+## Question
+
+With sea levels rising globally, how has saltwater intrusion affected the Delaware
+River and the people that rely on it's water?
+
+<!--chapter:end:index.Rmd-->
+
+# Methods
+
+```{r setup, include = F}
+library(tidyverse)
+library(sf)
+library(dataRetrieval)
+library(nhdplusTools)
+library(mapview)
+
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, results = TRUE)
+```
+
+## Watershed Delineation
+```{r, eval=FALSE}
+#Data for delineation
+site_coords_db3 <- readNWISsite("01463500") %>%
+  st_as_sf(coords = c('dec_long_va', 'dec_lat_va'), remove= FALSE, crs = 4326) %>%
+  st_transform(crs = 4269)
+
+
+dbae <- get_huc8(site_coords_db3[1,])
+
+
+flowlines_db3 <- get_nhdplus(AOI = dbae, 
+                         realization = 'flowline')
+  
+catchments_db3 <- get_nhdplus(AOI = dbae, 
+                         realization = 'catchment') 
+```
+
+### Watershed Map
+```{r, fig.cap= "**Figure 1.** Delineated watershed map of the Delaware River upstream."}
+watershed <- st_read('NJdata.geojson') %>%
+  dplyr::filter(id == 'globalwatershed' )
+
+mapview(watershed)
+```
+**Figure 1.** displays how large the catchment area of the Delaware River is and 
+allows one to recognize the major cities surrounding it, showing how many people 
+rely on it's water. 
+
+## Data Acquisition
+```{r}
+site_no1 <- "01463500" 
+
+q <- readNWISdv(siteNumbers = site_no1, 
+                parameterCd = '00060', 
+                startDate = '1995-09-30', 
+                endDate = '2021-01-01') %>% 
+  rename(q_cfs = X_00060_00003)
+
+sc <- readNWISdv(siteNumbers = site_no1,
+                parameterCd = '00095',
+                startDate = '1995-09-30', 
+                endDate = '2021-01-01') %>%
+  rename(sc = X_00095_00003)
+```
+Discharge data and level data is collected from the upstream site in the Delaware River from the USGS primary gauge.
+
+## Data Plot
+```{r, fig.cap= "**Figure 2.** Discharge data for the Delaware River from 1995 to 2021 at the Upstream site."}
+ggplot(q, aes(x = Date, y = q_cfs)) + 
+  geom_line() + 
+  ylab('Discharge (cfs)')
+```
+Starting with looking at discharge at the upstream site, **Figure 2.** shows a 
+large amount of variation, but it is hard to understand what any of it means. Next,
+I will be splitting the mean discharge data between the 12 months to see how they 
+compare. 
+
+<!--chapter:end:1_methods.Rmd-->
+
+---
 output: html_document
 editor_options: 
   chunk_output_type: console
@@ -359,4 +488,28 @@ up_sc_mk <- sens.slope((q_sc_t$sc_mean1))
 print(up_q_mk)
 print(up_sc_mk)
 ```
+
+
+<!--chapter:end:2_results.Rmd-->
+
+# Discussion
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, results = TRUE)
+```
+
+Here is my discussion post.
+
+After delving more into this topic, I have found that with rising sea level, more 
+salt water is able to intrude into the river. This will not be good for the 
+future of these cities as they rely on this water for drinking water and will have 
+less of it. 
+
+<!--chapter:end:3_discussion.Rmd-->
+
+
+
+`r if (knitr::is_html_output()) '# References {-}'`
+
+<!--chapter:end:wrapping_up.Rmd-->
 

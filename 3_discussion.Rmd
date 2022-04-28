@@ -1,0 +1,12 @@
+# Discussion
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, results = TRUE)
+```
+
+Here is my discussion post.
+
+After delving more into this topic, I have found that with rising sea level, more 
+salt water is able to intrude into the river. This will not be good for the 
+future of these cities as they rely on this water for drinking water and will have 
+less of it. 

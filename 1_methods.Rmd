@@ -1,19 +1,18 @@
 # Methods
 
-
 ```{r setup, include = F}
-
 library(tidyverse)
 library(sf)
 library(dataRetrieval)
 library(nhdplusTools)
 library(mapview)
+
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, results = TRUE)
 ```
 
-
-## Watershed delineation
-
+## Watershed Delineation
 ```{r, eval=FALSE}
+#Data for delineation
 site_coords_db3 <- readNWISsite("01463500") %>%
   st_as_sf(coords = c('dec_long_va', 'dec_lat_va'), remove= FALSE, crs = 4326) %>%
   st_transform(crs = 4269)
@@ -29,56 +28,42 @@ catchments_db3 <- get_nhdplus(AOI = dbae,
                          realization = 'catchment') 
 ```
 
-
-## Watershed map
-
-```{r}
+### Watershed Map
+```{r, fig.cap= "**Figure 1.** Delineated watershed map of the Delaware River upstream."}
 watershed <- st_read('NJdata.geojson') %>%
   dplyr::filter(id == 'globalwatershed' )
 
-watershed
 mapview(watershed)
-
 ```
+**Figure 1.** displays how large the catchment area of the Delaware River is and 
+allows one to recognize the major cities surrounding it, showing how many people 
+rely on it's water. 
 
 ## Data Acquisition
-
-primary gage with discharge data and level data. 
-
-
 ```{r}
-site_no <- "01463500" 
+site_no1 <- "01463500" 
 
-q <- readNWISdv(siteNumbers = site_no, 
+q <- readNWISdv(siteNumbers = site_no1, 
                 parameterCd = '00060', 
                 startDate = '1995-09-30', 
                 endDate = '2021-01-01') %>% 
   rename(q_cfs = X_00060_00003)
 
-sc <- readNWISdv(siteNumbers = site_no,
+sc <- readNWISdv(siteNumbers = site_no1,
                 parameterCd = '00095',
                 startDate = '1995-09-30', 
                 endDate = '2021-01-01') %>%
   rename(sc = X_00095_00003)
-
 ```
+Discharge data and level data is collected from the upstream site in the Delaware River from the USGS primary gauge.
 
-Dates of Data:
-
-1912-10-01
-
-2022-02-14
-
-
-## Data plot
-
-
-```{r}
+## Data Plot
+```{r, fig.cap= "**Figure 2.** Discharge data for the Delaware River from 1995 to 2021 at the Upstream site."}
 ggplot(q, aes(x = Date, y = q_cfs)) + 
   geom_line() + 
-  ylab('Q (cfs)')
-
+  ylab('Discharge (cfs)')
 ```
-
-
-The plot shows the discharge data in cfs for the Delaware river from 1995-09-30 to 2021-01-01. There is a lot of variation over the years that can be seen in this graph ranging from 0 to over 200,000 cfs.
+Starting with looking at discharge at the upstream site, **Figure 2.** shows a 
+large amount of variation, but it is hard to understand what any of it means. Next,
+I will be splitting the mean discharge data between the 12 months to see how they 
+compare. 
