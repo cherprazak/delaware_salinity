@@ -1,10 +1,12 @@
-book_filename: "Final Project"
+book_filename: "Delaware River Salinity"
 delete_merged_file: true
 
 rmd_files:
+  - "0_abstract.Rmd"
   - "index.Rmd"
   - "1_methods.Rmd"
   - "2_results.Rmd"
   - "3_discussion.Rmd"
+  - "4_Conclusion.Rmd"
   - "wrapping_up.Rmd"
 output_dir: "docs"

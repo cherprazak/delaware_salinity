@@ -1,5 +1,5 @@
 ---
-title: "Final Project"
+title: "Delaware River Salinity"
 author: "Cher Prazak"
 date: "`r format(Sys.time(), '%d %h, %Y, %I:%M %p')`"
 site: bookdown::bookdown_site
@@ -40,13 +40,17 @@ pulls saltwater further into the Delaware. Therefore increasing saltwater intrus
 and erosion along the river banks. 
 
 Now if we focus on the Delaware River in New Jersey, we can look at the saltwater 
-intrusion and how it has changed over the last few years. We can take this and 
-compare it to sea levels in order to show how they are related and rely on each 
-other[@gay_comparison_2009].In a river like the Delaware that has a well mixed 
-estuary, the response to river discharge is surprisingly weak[@garvine_axial_1992].
+intrusion and how it has changed over the last few years. In **Figure 1.**, the 
+salt front is shown in the Delaware River, which differs everyday. The day shown,
+November 30th in 1964, displays the salt front about half way through the Middle 
+and Upstream site. I want to see how much more upstream the salt front travels in 
+2021. Through discharge and conductivity data, we can understand how rising sea 
+levels are impacting the salt front on the Delaware [@gay_comparison_2009].
 
 
-![](D_saltfront.png)
+![](D_saltfront2.png)
+**Figure 1.** Salt Front on the Delaware River as seen on November 30th, 1964 from 
+the Delaware River Basin Commission using USGS data. Upstream, Middle, and Estuary sites are labeled.
 
 ## Question
 

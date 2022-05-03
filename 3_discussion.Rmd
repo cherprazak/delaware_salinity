@@ -1,12 +1,34 @@
 # Discussion
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, results = TRUE)
-```
-
 Here is my discussion post.
 
-After delving more into this topic, I have found that with rising sea level, more 
-salt water is able to intrude into the river. This will not be good for the 
-future of these cities as they rely on this water for drinking water and will have 
-less of it. 
+Looking at trends in discharge rates, **Figure 4.** shows how mean discharge has
+changed from 1995 to 2021 for each of the twelve months of the year. For this project, 
+I decided to not discuss the trends for November through May due to the application 
+of road salt in the winter. Because of this, I looked at August and September trends 
+more closely
+
+
+After looking at data for saltwater intrusion in the Delaware River between 
+1995 and 2021, the future of this important waterway has become clear. With 
+global sea levels rising, the salt front will continue to travel further upstream, 
+increasing the opportunity of damage to equipment in the river and issues with 
+obtaining drinking water. As said in the introduction, the Delaware River is used 
+for 50% of New York City's drinking water and all of Philadelphia's drinking water 
+along with many other cities in that area. As salt water travels further upstream, 
+there will be a lose in drinkable water, ultimately forcing these important cities to 
+find freshwater elsewhere. Doing so will be more expensive and worse for the 
+environment as there will be an increase in having to transport water over 
+long distances. 
+
+
+
+
+In a river like the Delaware that has a well mixed 
+estuary, the response to river discharge is surprisingly weak[@garvine_axial_1992]
+
+Now if we focus on the Delaware River in New Jersey, we can look at the saltwater 
+intrusion and how it has changed over the last few years. We can take this and 
+compare it to sea levels in order to show how they are related and rely on each 
+other[@gay_comparison_2009].In a river like the Delaware that has a well mixed 
+estuary, the response to river discharge is surprisingly weak[@garvine_axial_1992].
