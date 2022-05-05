@@ -360,3 +360,19 @@ print(up_q_mk)
 print(up_sc_mk)
 ```
 
+
+```{r, fig.cap= "**Figure 11** Comparing discharge to specific conductivity in
+relation to each other from 1995 to 2021 at the Upstream site." }
+#discharge on x-axis and sc on y-axis
+
+ggplot(q_sc_t) +
+  geom_point(aes(x = q_mean, y = sc_mean1, color = Date)) +
+  xlab('Water Year')+
+  scale_y_log10()+
+  ylab(expression(Specific~Conductivity~(mu*S/cm))) +
+  xlab('Discharge (cfs)') +
+  theme_classic() +
+  scale_color_gradient(low = 'cyan', high = 'deeppink', trans = 'date')
+
+```
+

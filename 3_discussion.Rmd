@@ -1,3 +1,11 @@
+---
+output: html_document
+---
+
+```{r}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, results = TRUE)
+```
+
 # Discussion
 
 Here is my discussion post.
@@ -5,7 +13,7 @@ Here is my discussion post.
 Looking at trends in discharge rates, **Figure 4.** shows how mean discharge has
 changed from 1995 to 2021 for each of the twelve months of the year. For this project, 
 I decided to not discuss the trends for November through May due to the application 
-of road salt in the winter. Because of this, I looked at August and September trends 
+of road salt in the winter. Because of this, I looked at August and September trends  
 more closely
 
 

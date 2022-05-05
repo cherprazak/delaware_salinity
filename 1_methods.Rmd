@@ -1,6 +1,6 @@
 # Methods
 
-```{r setup, include = F}
+```{r setup_methods, include = F}
 library(tidyverse)
 library(sf)
 library(dataRetrieval)
@@ -29,13 +29,13 @@ catchments_db3 <- get_nhdplus(AOI = dbae,
 ```
 
 ### Watershed Map
-```{r, fig.cap= "**Figure 1.** Delineated watershed map of the Delaware River upstream."}
+```{r, fig.cap= "**Figure 2.** Delineated watershed map of the Delaware River upstream."}
 watershed <- st_read('NJdata.geojson') %>%
   dplyr::filter(id == 'globalwatershed' )
 
 mapview(watershed)
 ```
-**Figure 1.** displays how large the catchment area of the Delaware River is and 
+**Figure 2.** displays how large the catchment area of the Delaware River is and 
 allows one to recognize the major cities surrounding it, showing how many people 
 rely on it's water. 
 
@@ -58,12 +58,12 @@ sc <- readNWISdv(siteNumbers = site_no1,
 Discharge data and level data is collected from the upstream site in the Delaware River from the USGS primary gauge.
 
 ## Data Plot
-```{r, fig.cap= "**Figure 2.** Discharge data for the Delaware River from 1995 to 2021 at the Upstream site."}
+```{r, fig.cap= "**Figure 3.** Discharge data for the Delaware River from 1995 to 2021 at the Upstream site."}
 ggplot(q, aes(x = Date, y = q_cfs)) + 
   geom_line() + 
   ylab('Discharge (cfs)')
 ```
-Starting with looking at discharge at the upstream site, **Figure 2.** shows a 
+Starting with looking at discharge at the upstream site, **Figure 3.** shows a 
 large amount of variation, but it is hard to understand what any of it means. Next,
 I will be splitting the mean discharge data between the 12 months to see how they 
 compare. 
