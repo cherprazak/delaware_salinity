@@ -135,6 +135,28 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 </head>
 
@@ -634,7 +656,7 @@ Figure 4.7: <strong>Figure 10.</strong> Comparison of the Delaware River’s ups
 </div>
 <p><strong>Figure 10.</strong> shows how discharge and specific conductivity act with each other.
 With the red line marking specific conductivity, all of the highest points are
-when discharge has it’s lowest points. This tells us that discharge and speicific
+when discharge has it’s lowest points. This tells us that discharge and specific
 conductivity have a relationship where salt water intrudes further when flow is
 at it’s lowest. Using the Mann-Kendall test, the trend is significant with a slight
 slope of 0.15.</p>
@@ -712,28 +734,28 @@ slope of 0.15.</p>
 ## sample estimates:
 ## Sen&#39;s slope 
 ##   0.1508441</code></pre>
-<p>```{r, fig.cap= “<strong>Figure 11</strong> Comparing discharge to specific conductivity in
-relation to each other from 1995 to 2021 at the Upstream site.” }
-#discharge on x-axis and sc on y-axis</p>
-<p>ggplot(q_sc_t) +
-geom_point(aes(x = q_mean, y = sc_mean1, color = Date)) +
-xlab(‘Water Year’)+
-scale_y_log10()+
-ylab(expression(Specific<sub>Conductivity</sub>(mu*S/cm))) +
-xlab(‘Discharge (cfs)’) +
-theme_classic() +
-scale_color_gradient(low = ‘cyan’, high = ‘deeppink’, trans = ‘date’)</p>
-<pre><code>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="results.html#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co">#discharge on x-axis and sc on y-axis</span></span>
+<span id="cb55-2"><a href="results.html#cb55-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-3"><a href="results.html#cb55-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(q_sc_t) <span class="sc">+</span></span>
+<span id="cb55-4"><a href="results.html#cb55-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> q_mean, <span class="at">y =</span> sc_mean1, <span class="at">color =</span> Date)) <span class="sc">+</span></span>
+<span id="cb55-5"><a href="results.html#cb55-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&#39;Water Year&#39;</span>)<span class="sc">+</span></span>
+<span id="cb55-6"><a href="results.html#cb55-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>()<span class="sc">+</span></span>
+<span id="cb55-7"><a href="results.html#cb55-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="fu">expression</span>(Specific<span class="sc">~</span>Conductivity<span class="sc">~</span>(mu<span class="sc">*</span>S<span class="sc">/</span>cm))) <span class="sc">+</span></span>
+<span id="cb55-8"><a href="results.html#cb55-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&#39;Discharge (cfs)&#39;</span>) <span class="sc">+</span></span>
+<span id="cb55-9"><a href="results.html#cb55-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb55-10"><a href="results.html#cb55-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_gradient</span>(<span class="at">low =</span> <span class="st">&#39;cyan&#39;</span>, <span class="at">high =</span> <span class="st">&#39;deeppink&#39;</span>, <span class="at">trans =</span> <span class="st">&#39;date&#39;</span>)</span></code></pre></div>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-20"></span>
+<img src="Delaware-River-Salinity_files/figure-html/unnamed-chunk-20-1.png" alt="**Figure 11.** Comparing discharge to specific conductivity in relation to each other from 1995 to 2021 at the Upstream Site" width="672" />
+<p class="caption">
+Figure 4.8: <strong>Figure 11.</strong> Comparing discharge to specific conductivity in relation to each other from 1995 to 2021 at the Upstream Site
+</p>
+</div>
+<p>Trends observed in <strong>Figure 10.</strong> of salinity levels increasing as stream flow
+decreases will only be an issue when discharge is low. <strong>Figure 11.</strong> compares
+specific conductivity with discharge by year and shows that the majority of years
+from 1995 to 2021 have lower discharge compared to specific conductivity.</p>
 
-&lt;!--chapter:end:2_results.Rmd--&gt;
-
----
-output: html_document
----
-
-
-```r
-knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, results = TRUE)</code></pre>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="results.html#cb56-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">echo =</span> <span class="cn">TRUE</span>, <span class="at">message =</span> <span class="cn">FALSE</span>, <span class="at">warning =</span> <span class="cn">FALSE</span>, <span class="at">results =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 </div>
 </div>
             </section>

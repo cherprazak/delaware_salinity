@@ -9,4 +9,15 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, results = T
 
 # Abstract
 
-Here is my abstract
+As sea levels rise around the world, destruction has been brought down on coastal 
+regions. Freshwater outlets such as deltas allow saltwater to flow upstream under 
+the freshwater as it is denser. With this water flowing upstream it can cause damage 
+to the river banks with erosion and corrosion of structures and equipment. Using 
+discharge and specific conductivity data from the Delaware River, this research 
+looks for patterns of increasing salinity levels upstream. Using these sources, it 
+was observed that as streamflow decreased, salinity increased. Since streamflow is 
+ultimately increasing, issues with saltwater upstream don’t seem to be an issue. 
+However, monitoring the yearly variation in streamflow is important to continue 
+for the quality of freshwater that is used for drinking water relied on by millions 
+of people. 
+

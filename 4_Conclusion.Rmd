@@ -9,4 +9,20 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, results = T
 
 # Conclusion
 
-Here is my conclusion.
+With sea levels rising globally, there is a need to observe delta’s intake of 
+saltwater as too much could result in drastic changes to how people rely on the 
+freshwater upstream. This research takes streamflow and salinity levels from the 
+Delaware Bay and upstream river to acknowledge any patterns. Estuarine salinity 
+results observed in the bay were consistent with tidal flow [@whitney_simulating_2006]. 
+It was also observable that tidal patterns could be seen upstream at a middle site in 
+Wilmington and as far up at an upstream site in Trenton. Salinity levels were observed 
+through specific conductivity sensors and corresponded with tidal flows. Streamflow 
+was measured with discharge sensors and were found to be increasing over time with 
+drastic drops in between years. In the years with low streamflow, salinity levels 
+were observed to be higher than the years with high streamflow. With trends pointing 
+towards a decrease in streamflow, the salt front will be able to continue travelling 
+further upstream to where it could damage equipment and cause drinking water issues 
+for the millions of people that rely on the Delaware River. Therefore, continuing to 
+monitor the yearly variation in streamflow is impertinent towards assuring that the 
+Delaware River can provide quality drinking water to those in surrounding areas. 
+

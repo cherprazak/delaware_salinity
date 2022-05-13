@@ -16,7 +16,7 @@ For years, the world has been watching our climate change into what it is today.
 There are people who prefer not believe in it and there are people who are very 
 passionate about it. The changes that have been recorded are small, but important
 for many systems on Earth. These include an increase of around one degree Celsius
-and an increase in sea level by 6 to 8 inches [@epa_climate_2021]. These play a 
+and an increase in sea level by 6 to 8 inches [@epa_us_2022]. These play a 
 big part in changing parts of our lives that we don't notice on a day to day basis.
 
 With the sea level rising, the amount of coastal erosion has increased by a large 
@@ -25,7 +25,7 @@ down the sediments, forcing these structures to loose their stability. Leading t
 a loss of deltas, marshes, and wetlands that house important ecosystems. Saltwater 
 is corrosive over time and also makes it more difficult for buildings and equipment 
 to keep their strength. This means that buildings and equipment need constant upkeep
-so they don't erode like the river banks [@epa_climate_2021-1]. 
+so they don't erode like the river banks [@epa_us_2022]. 
 
 Looking at the tide coming into the Delaware Bay, sea water flows towards the
 freshwater and will flow upstream at the bottom of the river. This is due to the
